@@ -16,9 +16,21 @@
 
 package com.karumi.headerrecyclerview.sample;
 
+import java.util.List;
+
 /**
  * Presentation model created to contain all the information needed to draw the header of a list of
  * DragonBall characters.
  */
 public class DragonBallHeader {
+
+  private final List<String> dragonBallCharacters;
+
+  public DragonBallHeader(List<String> dragonBallCharacters) {
+    this.dragonBallCharacters = dragonBallCharacters;
+  }
+
+  public List<String> getDragonBallCharacters() {
+    return dragonBallCharacters;
+  }
 }
