@@ -15,8 +15,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-  <color name="white">#ffffffff</color>
-  <color name="black">#ff000000</color>
-  <color name="background">#fff0f0f0</color>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <gradient
+      android:startColor="@android:color/transparent"
+      android:endColor="@color/black"
+      android:angle="270"
+      android:dither="true"
+      />
+</shape>

@@ -24,4 +24,4 @@
     nox:shape="fixed_circular_shape"
     nox:item_margin="15dip"
     nox:item_placeholder="@mipmap/ball"
-    android:background="@mipmap/bg_dragon_ball_header.jpg"/>
+    android:background="@mipmap/bg_dragon_ball_header"/>
