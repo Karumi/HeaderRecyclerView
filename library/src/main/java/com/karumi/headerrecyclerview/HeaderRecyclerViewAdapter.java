@@ -65,10 +65,6 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return header;
   }
 
-  public List<T> getItems() {
-    return items;
-  }
-
   public T getItem(int position) {
     if (hasHeader()) {
       --position;

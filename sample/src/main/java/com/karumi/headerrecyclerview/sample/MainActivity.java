@@ -67,27 +67,36 @@ public class MainActivity extends AppCompatActivity {
         8));
     characters.add(new DragonBallCharacter("Cell",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-cell.jpg", 84));
+    characters.add(new DragonBallCharacter("Tien & Chiaotzu",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-tien-chiaotzu.jpg",
+        45));
     characters.add(new DragonBallCharacter("Piccolo",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-piccolo.jpg", 80));
-    characters.add(new DragonBallCharacter("Broly", "http://vignette2.wikia.nocookie"
-        + ".net/dragonball/images/f/ff/Lssj3-broly-vs-ssj3-goku-and-ulimate-gohan-9014"
-        + ".jpg/revision/latest?cb=20110724000354&path-prefix=es", 99));
+    characters.add(new DragonBallCharacter("Raditz",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-raditz.jpg", 35));
+    characters.add(new DragonBallCharacter("Trunks",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-trunks.jpg", 85));
     characters.add(new DragonBallCharacter("Beerus",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-beerus.jpg", 98));
+    characters.add(new DragonBallCharacter("Babidi",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-babidi.jpg", 30));
     characters.add(new DragonBallCharacter("Gohan",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-gohan.jpg", 70));
     characters.add(new DragonBallCharacter("Vegeta",
         "http://animepolls.com/wp-content/uploads/2015/03/Vegeta_by_aznfanaticwarrior.png", 90));
     characters.add(new DragonBallCharacter("Krillin",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-krillin.jpg", 10));
-
+    characters.add(new DragonBallCharacter("Nappa",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-nappa.jpg", 45));
     return characters;
   }
 
   private DragonBallHeader getHeader(List<DragonBallCharacter> characters) {
     List<NoxItem> noxItems = new ArrayList<NoxItem>();
-    for (DragonBallCharacter character : characters) {
-      noxItems.add(new NoxItem(character.getPhoto()));
+    for (int i = 0; i < 3; i++) {
+      for (DragonBallCharacter character : characters) {
+        noxItems.add(new NoxItem(character.getPhoto()));
+      }
     }
     return new DragonBallHeader(noxItems);
   }

@@ -34,7 +34,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder {
     this.noxView = (NoxView) itemView.findViewById(R.id.nox_view);
   }
 
-  public void render(DragonBallHeader header){
+  public void render(DragonBallHeader header) {
     List<NoxItem> noxItems = header.getDragonBallCharacters();
     noxView.showNoxItems(noxItems);
   }
