@@ -21,6 +21,8 @@ android {
 
 dependencies {
   compile 'com.android.support:recyclerview-v7:22.1.1'
+  testCompile 'org.robolectric:robolectric:2.4'
+  testCompile 'junit:junit:4.10'
 }
 
 task checkstyle(type: Checkstyle) {

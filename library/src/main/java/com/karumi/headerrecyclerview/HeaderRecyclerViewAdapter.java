@@ -66,7 +66,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
   }
 
   public T getItem(int position) {
-    if (hasHeader()) {
+    if (hasHeader() && hasItems()) {
       --position;
     }
     return items.get(position);
@@ -101,6 +101,10 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    */
   protected boolean hasHeader() {
     return getHeader() != null;
+  }
+
+  private boolean hasItems() {
+    return items.size() > 0;
   }
 
   private void validateItems(List<T> items) {
