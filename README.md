@@ -13,7 +13,7 @@ Usage
 
 To use ``HeaderRecyclerView`` in your application you have to follow this steps:
 
-* 1. Create a class extending from ``HeaderRecyclerViewAdapter``:
+* 1 - Create a class extending from ``HeaderRecyclerViewAdapter``:
 
 ```java
 
@@ -22,7 +22,7 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
 ```
 
-* 2. Implement ``onCreateViewHolder`` and ``onBindViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:
+* 2 - Implement ``onCreateViewHolder`` and ``onBindViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:
 
 ```java
 
@@ -53,7 +53,7 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
 ```
 
-* 3. Configure your ``RecyclerView`` widget with this layout:
+* 3 - Configure your ``RecyclerView`` widget with this layout:
 
 ```java
 
@@ -61,14 +61,13 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
   DragonBallHeader header = getHeader(characters);
   adapter.setHeader(header);
   adapter.setItems(characters);
-  adapter.notifyDataSetChanged();
   recyclerView.setAdapter(adapter);
 
 ```
 
-**You can use methods like ``isHeaderType(viewType)`` or isHeaderPosition(position)`` to return the ViewHolder associated to the header or to draw the view associated to the header. The header instance can be obtained using the method ``getHeader()``.
+**You can use methods like ``isHeaderType(viewType)`` or ``isHeaderPosition(position)`` to return the ViewHolder associated to the header or to draw the view associated to the header. The header instance can be obtained using the method ``getHeader()``**.
 
-If you are using a ``GridLayoutManager`` instead of a ``LinearLayoutManager`` remember you'll have to configure the ``SpanSizeLookup`` used in the ``LayoutManager`` instance. If you are using ``HeaderRecyclerView`` with a ``GridLayoutManager`` you can create an instance of ``HeaderSpanSizeLookup`` and configure your ``LayoutManager`` instance:
+* 4 - If you are using a ``GridLayoutManager`` instead of a ``LinearLayoutManager`` remember you'll have to configure the ``SpanSizeLookup`` used in the ``LayoutManager`` instance. If you are using ``HeaderRecyclerView`` with a ``GridLayoutManager`` you can create an instance of ``HeaderSpanSizeLookup`` and configure your ``LayoutManager`` instance:
 
 ```java
 
