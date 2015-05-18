@@ -16,4 +16,9 @@
   -->
 
 <resources>
+  <dimen name="margin">8dp</dimen>
+  <dimen name="character_row_height">150dp</dimen>
+  <dimen name="character_row_shadow_height">50dp</dimen>
+  <dimen name="header_row_height">200dp</dimen>
+  <dimen name="nox_item_margin">15dp</dimen>
 </resources>

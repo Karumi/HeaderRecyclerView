@@ -20,8 +20,8 @@
     xmlns:nox="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nox_view"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="@dimen/header_row_height"
+    android:background="@mipmap/bg_dragon_ball_header"
     nox:shape="fixed_circular_shape"
-    nox:item_margin="15dip"
-    nox:item_placeholder="@mipmap/ball"
-    android:background="@mipmap/bg_dragon_ball_header"/>
+    nox:item_margin="@dimen/nox_item_margin"
+    nox:item_placeholder="@mipmap/ball"/>
