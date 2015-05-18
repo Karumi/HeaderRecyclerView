@@ -13,7 +13,9 @@ android {
 }
 
 dependencies {
+  compile project(':library')
   compile 'com.android.support:appcompat-v7:22.1.1'
+  compile 'com.android.support:recyclerview-v7:22.1.1'
 }
 
 task checkstyle(type: Checkstyle) {

@@ -29,7 +29,7 @@ import java.util.List;
  * The usage of List<T> items member is not mandatory. If you are going to provide your custom
  * implementation remember to override getItemCount method.
  */
-public abstract class HeaderRecyclerView<VH extends RecyclerView.ViewHolder, H, T>
+public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHolder, H, T>
     extends RecyclerView.Adapter<VH> {
 
   protected static final int TYPE_HEADER = -2;

@@ -14,15 +14,32 @@
  * limitations under the License.
  */
 
-package com.karumi.headerrecyclerview;
+package com.karumi.headerrecyclerview.sample;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+/**
+ * Presentation model created to contain all the information needed to draw a DragonBall character.
+ */
+public class DragonBallCharacter {
 
-public class MainActivity extends ActionBarActivity {
+  private final String name;
+  private final String photo;
+  private final int level;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.main_activity);
+  public DragonBallCharacter(int level, String photo, String name) {
+    this.level = level;
+    this.photo = photo;
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getPhoto() {
+    return photo;
+  }
+
+  public int getLevel() {
+    return level;
   }
 }
