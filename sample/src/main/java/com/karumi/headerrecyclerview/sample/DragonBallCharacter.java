@@ -25,10 +25,10 @@ public class DragonBallCharacter {
   private final String photo;
   private final int level;
 
-  public DragonBallCharacter(int level, String photo, String name) {
-    this.level = level;
-    this.photo = photo;
+  public DragonBallCharacter(String name, String photo, int level) {
     this.name = name;
+    this.photo = photo;
+    this.level = level;
   }
 
   public String getName() {

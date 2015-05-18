@@ -16,6 +16,7 @@
 
 package com.karumi.headerrecyclerview.sample;
 
+import com.github.pedrovgs.nox.NoxItem;
 import java.util.List;
 
 /**
@@ -24,13 +25,13 @@ import java.util.List;
  */
 public class DragonBallHeader {
 
-  private final List<String> dragonBallCharacters;
+  private final List<NoxItem> dragonBallCharacters;
 
-  public DragonBallHeader(List<String> dragonBallCharacters) {
+  public DragonBallHeader(List<NoxItem> dragonBallCharacters) {
     this.dragonBallCharacters = dragonBallCharacters;
   }
 
-  public List<String> getDragonBallCharacters() {
+  public List<NoxItem> getDragonBallCharacters() {
     return dragonBallCharacters;
   }
 }
