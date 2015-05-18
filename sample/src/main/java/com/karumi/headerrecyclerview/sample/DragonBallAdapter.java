@@ -17,6 +17,8 @@
 package com.karumi.headerrecyclerview.sample;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
 
@@ -27,11 +29,28 @@ import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
 public class DragonBallAdapter extends
     HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter> {
 
-  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-    return null;
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    RecyclerView.ViewHolder viewHolder;
+    LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+    if (isHeaderType(viewType)) {
+      View headerView = inflater.inflate(R.layout.row_dragon_ball_header, viewGroup, false);
+      viewHolder = new HeaderViewHolder(headerView);
+    } else {
+      View characterView = inflater.inflate(R.layout.row_dragon_ball_character, viewGroup, false);
+      viewHolder = new CharacterViewHolder(characterView);
+    }
+    return viewHolder;
   }
 
-  @Override public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    if (isHeaderPosition(position)) {
+      DragonBallHeader header = getHeader();
+      HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+      headerViewHolder.render(header);
+    } else {
+      DragonBallCharacter character = getItem(position);
+      CharacterViewHolder characterViewHolder = (CharacterViewHolder) viewHolder;
+      characterViewHolder.render(character);
+    }
   }
 }

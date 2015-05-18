@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
     adapter = new DragonBallAdapter();
+    recyclerView.setAdapter(adapter);
   }
 
   private void fillRecyclerView() {

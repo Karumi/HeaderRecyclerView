@@ -69,6 +69,13 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return items;
   }
 
+  public T getItem(int position) {
+    if (hasHeader()) {
+      --position;
+    }
+    return items.get(position);
+  }
+
   public void setHeader(H header) {
     this.header = header;
   }
@@ -81,7 +88,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
   /**
    * Returns true if the view type parameter passed as argument is equals to TYPE_HEADER.
    */
-  protected boolean isViewTypeTheHeaderType(int viewType) {
+  protected boolean isHeaderType(int viewType) {
     return viewType == TYPE_HEADER;
   }
 
