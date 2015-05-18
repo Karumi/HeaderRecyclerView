@@ -82,18 +82,18 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
   }
 
   /**
+   * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
+   * has a not null header already configured.
+   */
+  public boolean isHeaderPosition(int position) {
+    return hasHeader() && position == 0;
+  }
+
+  /**
    * Returns true if the view type parameter passed as argument is equals to TYPE_HEADER.
    */
   protected boolean isHeaderType(int viewType) {
     return viewType == TYPE_HEADER;
-  }
-
-  /**
-   * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
-   * has a not null header already configured.
-   */
-  protected boolean isHeaderPosition(int position) {
-    return hasHeader() && position == 0;
   }
 
   /**

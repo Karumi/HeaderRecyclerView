@@ -18,14 +18,17 @@ package com.karumi.headerrecyclerview.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.github.pedrovgs.nox.NoxItem;
 import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
+import com.karumi.headerrecyclerview.HeaderSpanSizeLookup;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+  private static final int NUMBER_OF_COLUMNS = 2;
 
   private RecyclerView recyclerView;
   private HeaderRecyclerViewAdapter adapter;
@@ -38,11 +41,13 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initializeRecyclerView() {
+    adapter = new DragonBallAdapter();
     recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setHasFixedSize(true);
-    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+    GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapter, layoutManager);
+    layoutManager.setSpanSizeLookup(headerSpanSizeLookup);
     recyclerView.setLayoutManager(layoutManager);
-    adapter = new DragonBallAdapter();
     recyclerView.setAdapter(adapter);
   }
 
