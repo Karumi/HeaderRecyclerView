@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         "http://www.dragonballz.com/images/characters/content-keyart-characters-krillin.jpg", 10));
     characters.add(new DragonBallCharacter("Nappa",
         "http://www.dragonballz.com/images/characters/content-keyart-characters-nappa.jpg", 45));
+    characters.add(new DragonBallCharacter("King Kai",
+        "http://www.dragonballz.com/images/characters/content-keyart-characters-king-kai.jpg", 20));
     return characters;
   }
 
