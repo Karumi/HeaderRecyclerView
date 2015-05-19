@@ -49,8 +49,6 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
     adapter = getAdapterUnderTest();
   }
 
-  protected abstract HeaderRecyclerViewAdapter<VH, H, T> getAdapterUnderTest();
-
   @Test public void shouldReturnZeroAsItemCountByDefault() {
     assertEquals(0, adapter.getItemCount());
   }
@@ -175,6 +173,8 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
     adapter.setItems(items);
     return adapter;
   }
+
+  protected abstract HeaderRecyclerViewAdapter<VH, H, T> getAdapterUnderTest();
 
   protected abstract VH givenAViewHolder();
 
