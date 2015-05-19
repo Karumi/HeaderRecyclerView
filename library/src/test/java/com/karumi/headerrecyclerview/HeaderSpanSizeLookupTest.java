@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
@@ -32,10 +31,12 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
     List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithoutHeaderAndWithItems = getHeaderRecyclerAdapter();
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
+        adapterWithoutHeaderAndWithItems = getHeaderRecyclerAdapter();
     int spanCount = 3;
     GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithoutHeaderAndWithItems, gridLayoutManager);
+    HeaderSpanSizeLookup headerSpanSizeLookup =
+        new HeaderSpanSizeLookup(adapterWithoutHeaderAndWithItems, gridLayoutManager);
     adapterWithoutHeaderAndWithItems.setItems(items);
     int positionZero = 0;
 
@@ -44,10 +45,12 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
     Object header = giveAHeader();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndNoItems = getHeaderRecyclerAdapter();
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndNoItems =
+        getHeaderRecyclerAdapter();
     int spanCount = 3;
     GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndNoItems, gridLayoutManager);
+    HeaderSpanSizeLookup headerSpanSizeLookup =
+        new HeaderSpanSizeLookup(adapterWithHeaderAndNoItems, gridLayoutManager);
     adapterWithHeaderAndNoItems.setHeader(header);
     int positionZero = 0;
 
@@ -57,10 +60,12 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
     Object header = giveAHeader();
     List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems = getHeaderRecyclerAdapter();
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems =
+        getHeaderRecyclerAdapter();
     int spanCount = 3;
     GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
+    HeaderSpanSizeLookup headerSpanSizeLookup =
+        new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
     adapterWithHeaderAndItems.setHeader(header);
     adapterWithHeaderAndItems.setItems(items);
     int positionZero = 0;
@@ -71,10 +76,12 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
     Object header = giveAHeader();
     List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems = getHeaderRecyclerAdapter();
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems =
+        getHeaderRecyclerAdapter();
     int spanCount = 3;
     GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
+    HeaderSpanSizeLookup headerSpanSizeLookup =
+        new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
     adapterWithHeaderAndItems.setHeader(header);
     adapterWithHeaderAndItems.setItems(items);
     int positionOne = 1;
@@ -92,8 +99,7 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     return items;
   }
 
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
-  getHeaderRecyclerAdapter() {
+  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> getHeaderRecyclerAdapter() {
     return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
 
       @Override
