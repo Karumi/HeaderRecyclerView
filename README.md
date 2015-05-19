@@ -1,4 +1,4 @@
-HeaderRecyclerView
+HeaderRecyclerView [![Build Status](https://travis-ci.org/karumi/HeaderRecyclerView.svg?branch=master)](https://travis-ci.org/karumi/HeaderRecyclerView) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.karumi/HeaderRecyclerView/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.karumi/HeaderRecyclerView)
 ==================
 
 HeaderRecyclerView is an Android library created to be able to use ``RecyclerView.Adapter`` with a header in a easy way. To use this library create your ``RecyclerView.Adapter`` classes extending from ``HeaderRecyclerViewAdapter``.
