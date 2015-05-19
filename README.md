@@ -116,6 +116,11 @@ Libraries used in this project
 * [Picasso] [4]
 * [Nox] [5]
 
+External resources used in this project
+---------------------------------------
+
+* FUNimation Productions, Ltd. ©
+
 License
 -------
 
