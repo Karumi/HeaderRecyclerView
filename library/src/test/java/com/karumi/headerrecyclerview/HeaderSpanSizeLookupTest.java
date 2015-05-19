@@ -29,58 +29,57 @@ import static junit.framework.Assert.assertEquals;
 
 public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
-  private static final int ANY_SPAN_COUNT = 3;
-  public static final int HEADER_SPAN_SIZE = 1;
-
-  private HeaderSpanSizeLookup headerSpanSizeLookup;
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapter;
-
-  @Before public void setUp() {
-    GridLayoutManager gridLayoutManager =
-        new GridLayoutManager(Robolectric.application, ANY_SPAN_COUNT);
-    adapter = getHeaderRecyclerAdapter();
-    headerSpanSizeLookup = new HeaderSpanSizeLookup(adapter, gridLayoutManager);
-  }
-
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
     List<Object> items = givenSomeItems();
-    adapter.setItems(items);
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithoutHeaderAndWithItems = getHeaderRecyclerAdapter();
+    int spanCount = 3;
+    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithoutHeaderAndWithItems, gridLayoutManager);
+    adapterWithoutHeaderAndWithItems.setItems(items);
+    int positionZero = 0;
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(HEADER_SPAN_SIZE, spanSize);
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
     Object header = giveAHeader();
-    adapter.setHeader(header);
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndNoItems = getHeaderRecyclerAdapter();
+    int spanCount = 3;
+    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndNoItems, gridLayoutManager);
+    adapterWithHeaderAndNoItems.setHeader(header);
+    int positionZero = 0;
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(ANY_SPAN_COUNT, spanSize);
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
     Object header = giveAHeader();
     List<Object> items = givenSomeItems();
-    adapter.setHeader(header);
-    adapter.setItems(items);
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems = getHeaderRecyclerAdapter();
+    int spanCount = 3;
+    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
+    adapterWithHeaderAndItems.setHeader(header);
+    adapterWithHeaderAndItems.setItems(items);
+    int positionZero = 0;
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(ANY_SPAN_COUNT, spanSize);
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
     Object header = giveAHeader();
     List<Object> items = givenSomeItems();
-    adapter.setHeader(header);
-    adapter.setItems(items);
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems = getHeaderRecyclerAdapter();
+    int spanCount = 3;
+    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
+    adapterWithHeaderAndItems.setHeader(header);
+    adapterWithHeaderAndItems.setItems(items);
+    int positionOne = 1;
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(1);
-
-    assertEquals(HEADER_SPAN_SIZE, spanSize);
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(positionOne));
   }
 
   private Object giveAHeader() {
