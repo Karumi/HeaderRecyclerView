@@ -97,11 +97,22 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
   getHeaderRecyclerAdapter() {
     return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
 
-      @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      @Override
+      protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
         return null;
       }
 
-      @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+      @Override
+      protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
+        return null;
+      }
+
+      @Override
+      protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+      }
+
+      @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
     };

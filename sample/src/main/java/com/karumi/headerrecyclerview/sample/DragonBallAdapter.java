@@ -29,28 +29,33 @@ import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
 public class DragonBallAdapter extends
     HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter> {
 
-  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-    RecyclerView.ViewHolder viewHolder;
-    LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-    if (isHeaderType(viewType)) {
-      View headerView = inflater.inflate(R.layout.row_dragon_ball_header, viewGroup, false);
-      viewHolder = new HeaderViewHolder(headerView);
-    } else {
-      View characterView = inflater.inflate(R.layout.row_dragon_ball_character, viewGroup, false);
-      viewHolder = new CharacterViewHolder(characterView);
-    }
-    return viewHolder;
+  @Override
+  protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
+    LayoutInflater inflater = getLayoutInflater(parent);
+    View headerView = inflater.inflate(R.layout.row_dragon_ball_header, parent, false);
+    return new HeaderViewHolder(headerView);
   }
 
-  @Override public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-    if (isHeaderPosition(position)) {
-      DragonBallHeader header = getHeader();
-      HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
-      headerViewHolder.render(header);
-    } else {
-      DragonBallCharacter character = getItem(position);
-      CharacterViewHolder characterViewHolder = (CharacterViewHolder) viewHolder;
-      characterViewHolder.render(character);
-    }
+  @Override
+  protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
+    LayoutInflater inflater = getLayoutInflater(parent);
+    View characterView = inflater.inflate(R.layout.row_dragon_ball_character, parent, false);
+    return new CharacterViewHolder(characterView);
+  }
+
+  @Override protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+    DragonBallHeader header = getHeader();
+    HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+    headerViewHolder.render(header);
+  }
+
+  @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+    DragonBallCharacter character = getItem(position);
+    CharacterViewHolder characterViewHolder = (CharacterViewHolder) holder;
+    characterViewHolder.render(character);
+  }
+
+  private LayoutInflater getLayoutInflater(ViewGroup parent) {
+    return LayoutInflater.from(parent.getContext());
   }
 }

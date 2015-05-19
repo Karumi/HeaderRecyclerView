@@ -17,9 +17,12 @@
 package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
 
 public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBaseTest {
 
@@ -27,14 +30,30 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
   protected HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
   getAdapterUnderTest() {
     return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
-      @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+      @Override
+      protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
         return null;
       }
 
-      @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+      @Override
+      protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
+        return null;
+      }
+
+      @Override
+      protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+      }
+
+      @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
     };
+  }
+
+  @Override protected RecyclerView.ViewHolder givenAViewHolder() {
+    return new FakeViewHolder(mock(View.class));
   }
 
   @Override protected Object givenAHeader() {
@@ -47,5 +66,12 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
       items.add(new Object());
     }
     return items;
+  }
+
+  private class FakeViewHolder extends RecyclerView.ViewHolder {
+
+    public FakeViewHolder(View itemView) {
+      super(itemView);
+    }
   }
 }
