@@ -127,27 +127,27 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
   }
 
   @Test public void shouldDelegateCallToOnCreateHeaderViewHolderIfViewTypeIsHeaderType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndSomeItems =
+    HeaderRecyclerViewAdapter<VH, H, T> adapter =
         spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenAListWithFiveItems())
             .build());
     ViewGroup anyViewGroup = mock(ViewGroup.class);
 
-    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, TYPE_HEADER);
+    adapter.onCreateViewHolder(anyViewGroup, TYPE_HEADER);
 
-    verify(adapterWithHeaderAndSomeItems).onCreateHeaderViewHolder(anyViewGroup, TYPE_HEADER);
+    verify(adapter).onCreateHeaderViewHolder(anyViewGroup, TYPE_HEADER);
   }
 
   @Test public void shouldDelegateCallToOnCreateItemViewHolderIfViewTypeIsItemType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndSomeItems =
+    HeaderRecyclerViewAdapter<VH, H, T> adapter =
         spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenAListWithFiveItems())
             .build());
     ViewGroup anyViewGroup = mock(ViewGroup.class);
 
-    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, TYPE_ITEM);
+    adapter.onCreateViewHolder(anyViewGroup, TYPE_ITEM);
 
-    verify(adapterWithHeaderAndSomeItems).onCreateItemViewHolder(anyViewGroup, TYPE_ITEM);
+    verify(adapter).onCreateItemViewHolder(anyViewGroup, TYPE_ITEM);
   }
 
   @Test public void shouldDelegateCallToOnBindHeaderViewHolderIfViewTypeIsHeaderType() {
