@@ -36,6 +36,9 @@ import static org.mockito.Mockito.verify;
 public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T>
     extends RobolectricTest {
 
+  public static final int TYPE_ITEM = -1;
+  public static final int TYPE_HEADER = -2;
+
   @Test public void shouldReturnZeroAsItemCountByDefault() {
     HeaderRecyclerViewAdapter<VH, H, T> defaultAdapter =
         new HeaderRecyclerViewAdapterBuilder().build();
@@ -88,7 +91,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         new HeaderRecyclerViewAdapterBuilder().build();
     int anyPosition = 0;
 
-    assertEquals(-1, adapterWithoutHeaderAndWithoutItems.getItemViewType(anyPosition));
+    assertEquals(TYPE_ITEM, adapterWithoutHeaderAndWithoutItems.getItemViewType(anyPosition));
   }
 
   @Test public void shouldReturnHeaderTypeIfThereIsAHeaderConfiguredAndThePositionIsZero() {
@@ -96,7 +99,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
     int positionZero = 0;
 
-    assertEquals(-2, adapterWithHeaderAndNoItems.getItemViewType(positionZero));
+    assertEquals(TYPE_HEADER, adapterWithHeaderAndNoItems.getItemViewType(positionZero));
   }
 
   @Test public void shouldReturnItemAsItemAtPositionZeroIfThereIsNoHeaderConfigured() {
@@ -128,12 +131,11 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenAListWithFiveItems())
             .build());
-    int typeHeader = -2;
     ViewGroup anyViewGroup = mock(ViewGroup.class);
 
-    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, typeHeader);
+    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, TYPE_HEADER);
 
-    verify(adapterWithHeaderAndSomeItems).onCreateHeaderViewHolder(anyViewGroup, typeHeader);
+    verify(adapterWithHeaderAndSomeItems).onCreateHeaderViewHolder(anyViewGroup, TYPE_HEADER);
   }
 
   @Test public void shouldDelegateCallToOnCreateItemViewHolderIfViewTypeIsItemType() {
@@ -141,12 +143,11 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenAListWithFiveItems())
             .build());
-    int typeItem = -1;
     ViewGroup anyViewGroup = mock(ViewGroup.class);
 
-    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, typeItem);
+    adapterWithHeaderAndSomeItems.onCreateViewHolder(anyViewGroup, TYPE_ITEM);
 
-    verify(adapterWithHeaderAndSomeItems).onCreateItemViewHolder(anyViewGroup, typeItem);
+    verify(adapterWithHeaderAndSomeItems).onCreateItemViewHolder(anyViewGroup, TYPE_ITEM);
   }
 
   @Test public void shouldDelegateCallToOnBindHeaderViewHolderIfViewTypeIsHeaderType() {
