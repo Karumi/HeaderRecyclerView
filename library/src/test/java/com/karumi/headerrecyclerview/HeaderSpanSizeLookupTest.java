@@ -16,13 +16,11 @@
 
 package com.karumi.headerrecyclerview;
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
-import org.robolectric.Robolectric;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -30,60 +28,48 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
-    List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
-        adapterWithoutHeaderAndWithItems = getHeaderRecyclerAdapter();
     int spanCount = 3;
-    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup =
-        new HeaderSpanSizeLookup(adapterWithoutHeaderAndWithItems, gridLayoutManager);
-    adapterWithoutHeaderAndWithItems.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withItems(givenSomeItems()).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .build();
     int positionZero = 0;
 
     assertEquals(1, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
-    Object header = giveAHeader();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndNoItems =
-        getHeaderRecyclerAdapter();
     int spanCount = 3;
-    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup =
-        new HeaderSpanSizeLookup(adapterWithHeaderAndNoItems, gridLayoutManager);
-    adapterWithHeaderAndNoItems.setHeader(header);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader()).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .build();
     int positionZero = 0;
 
     assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
-    Object header = giveAHeader();
-    List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems =
-        getHeaderRecyclerAdapter();
     int spanCount = 3;
-    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup =
-        new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
-    adapterWithHeaderAndItems.setHeader(header);
-    adapterWithHeaderAndItems.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+            .withItems(givenSomeItems())
+            .build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .build();
     int positionZero = 0;
 
     assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
-    Object header = giveAHeader();
-    List<Object> items = givenSomeItems();
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapterWithHeaderAndItems =
-        getHeaderRecyclerAdapter();
     int spanCount = 3;
-    GridLayoutManager gridLayoutManager = new GridLayoutManager(Robolectric.application, spanCount);
-    HeaderSpanSizeLookup headerSpanSizeLookup =
-        new HeaderSpanSizeLookup(adapterWithHeaderAndItems, gridLayoutManager);
-    adapterWithHeaderAndItems.setHeader(header);
-    adapterWithHeaderAndItems.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+            .withItems(givenSomeItems())
+            .build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .build();
     int positionOne = 1;
 
     assertEquals(1, headerSpanSizeLookup.getSpanSize(positionOne));
