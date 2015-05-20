@@ -175,18 +175,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
     verify(adapterWithHeaderAndSomeItems).onBindItemViewHolder(holder, anyNonHeaderPosition);
   }
 
-    private HeaderRecyclerViewAdapter<VH, H, T> givenAnAdapterWithHeaderAndSomeItems() {
-        HeaderRecyclerViewAdapter<VH, H, T> adapter = getAdapterUnderTest();
-        H header = givenAHeader();
-        List<T> items = givenAListWithFiveItems();
-        adapter.setHeader(header);
-        adapter.setItems(items);
-        return adapter;
-    }
-
-    protected abstract HeaderRecyclerViewAdapter<VH, H, T> getAdapterUnderTest();
-
-    protected abstract VH givenAViewHolder();
+  protected abstract VH givenAViewHolder();
 
   protected abstract H givenAHeader();
 
