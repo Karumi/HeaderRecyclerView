@@ -16,8 +16,6 @@
 
 package com.karumi.headerrecyclerview;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -83,29 +81,5 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     List<Object> items = new LinkedList<>();
     items.add(new Object());
     return items;
-  }
-
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> getHeaderRecyclerAdapter() {
-    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
-
-      @Override
-      protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
-        return null;
-      }
-
-      @Override
-      protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return null;
-      }
-
-      @Override
-      protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-      }
-
-      @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-      }
-    };
   }
 }
