@@ -38,6 +38,11 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
   public static final int TYPE_ITEM = -1;
   public static final int TYPE_HEADER = -2;
+  public static final int POSITION_ZERO = 0;
+  public static final int ANY_POSITION = 3;
+  public static final int POSITION_ONE = 1;
+  public static final int HEADER_POSITION = 0;
+  public static final int ANY_NON_HEADER_POSITION = 4;
 
   @Test public void shouldReturnZeroAsItemCountByDefault() {
     HeaderRecyclerViewAdapter<VH, H, T> defaultAdapter =
@@ -73,43 +78,38 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
   @Test public void shouldReturnFalseIfPositionEqualsToZeroButThereIsNoHeaderConfigured() {
     HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithoutItems =
         new HeaderRecyclerViewAdapterBuilder().build();
-    int positionZero = 0;
 
-    assertFalse(adapterWithoutHeaderAndWithoutItems.isHeaderPosition(positionZero));
+    assertFalse(adapterWithoutHeaderAndWithoutItems.isHeaderPosition(POSITION_ZERO));
   }
 
   @Test public void shouldReturnTrueIfPositionEqualsToZeroAndThereIsAHeaderConfigured() {
     HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndNoItems =
         new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
-    int positionZero = 0;
 
-    assertTrue(adapterWithHeaderAndNoItems.isHeaderPosition(positionZero));
+    assertTrue(adapterWithHeaderAndNoItems.isHeaderPosition(POSITION_ZERO));
   }
 
   @Test public void shouldReturnNoHeaderTypeIfThereIsNoHeaderConfigured() {
     HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithoutItems =
         new HeaderRecyclerViewAdapterBuilder().build();
-    int anyPosition = 0;
 
-    assertEquals(TYPE_ITEM, adapterWithoutHeaderAndWithoutItems.getItemViewType(anyPosition));
+    assertEquals(TYPE_ITEM, adapterWithoutHeaderAndWithoutItems.getItemViewType(ANY_POSITION));
   }
 
   @Test public void shouldReturnHeaderTypeIfThereIsAHeaderConfiguredAndThePositionIsZero() {
     HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndNoItems =
         new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
-    int positionZero = 0;
 
-    assertEquals(TYPE_HEADER, adapterWithHeaderAndNoItems.getItemViewType(positionZero));
+    assertEquals(TYPE_HEADER, adapterWithHeaderAndNoItems.getItemViewType(POSITION_ZERO));
   }
 
   @Test public void shouldReturnItemAsItemAtPositionZeroIfThereIsNoHeaderConfigured() {
     List<T> fiveItems = givenAListWithFiveItems();
     HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithFiveItems =
         new HeaderRecyclerViewAdapterBuilder().withItems(fiveItems).build();
-    int positionZero = 0;
 
-    T positionZeroItem = fiveItems.get(positionZero);
-    assertEquals(positionZeroItem, adapterWithoutHeaderAndWithFiveItems.getItem(positionZero));
+    T positionZeroItem = fiveItems.get(POSITION_ZERO);
+    assertEquals(positionZeroItem, adapterWithoutHeaderAndWithFiveItems.getItem(POSITION_ZERO));
   }
 
   @Test
@@ -119,11 +119,9 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(fiveItems)
             .build();
-    int positionZero = 0;
-    int positionOne = 1;
 
-    T positionZeroItem = fiveItems.get(positionZero);
-    assertEquals(positionZeroItem, adapterWithHeaderAndWithFiveItems.getItem(positionOne));
+    T positionZeroItem = fiveItems.get(POSITION_ZERO);
+    assertEquals(positionZeroItem, adapterWithHeaderAndWithFiveItems.getItem(POSITION_ONE));
   }
 
   @Test public void shouldDelegateCallToOnCreateHeaderViewHolderIfViewTypeIsHeaderType() {
@@ -156,11 +154,10 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
             .withItems(givenAListWithFiveItems())
             .build());
     VH holder = givenAViewHolder();
-    int headerPosition = 0;
 
-    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, headerPosition);
+    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, HEADER_POSITION);
 
-    verify(adapterWithHeaderAndSomeItems).onBindHeaderViewHolder(holder, headerPosition);
+    verify(adapterWithHeaderAndSomeItems).onBindHeaderViewHolder(holder, HEADER_POSITION);
   }
 
   @Test public void shouldDelegateCallToOnBindItemViewHolderIfViewTypeIsItemType() {
@@ -169,11 +166,10 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
             .withItems(givenAListWithFiveItems())
             .build());
     VH holder = givenAViewHolder();
-    int anyNonHeaderPosition = 1;
 
-    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, anyNonHeaderPosition);
+    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, ANY_NON_HEADER_POSITION);
 
-    verify(adapterWithHeaderAndSomeItems).onBindItemViewHolder(holder, anyNonHeaderPosition);
+    verify(adapterWithHeaderAndSomeItems).onBindItemViewHolder(holder, ANY_NON_HEADER_POSITION);
   }
 
   protected abstract VH givenAViewHolder();
