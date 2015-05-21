@@ -24,53 +24,49 @@ import static junit.framework.Assert.assertEquals;
 
 public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
+  public static final int THREE_ROWS = 3;
+  public static final int POSITION_ZERO = 0;
+  public static final int POSITION_ONE = 1;
+
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
-    int spanCount = 3;
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
         new HeaderRecyclerViewAdapterBuilder().withItems(givenSomeItems()).build())
-        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
         .build();
-    int positionZero = 0;
 
-    assertEquals(1, headerSpanSizeLookup.getSpanSize(positionZero));
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
-    int spanCount = 3;
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
         new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader()).build())
-        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
         .build();
-    int positionZero = 0;
 
-    assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
-    int spanCount = 3;
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
         new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
             .withItems(givenSomeItems())
             .build())
-        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
         .build();
-    int positionZero = 0;
 
-    assertEquals(3, headerSpanSizeLookup.getSpanSize(positionZero));
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
-    int spanCount = 3;
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
         new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
             .withItems(givenSomeItems())
             .build())
-        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(spanCount).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
         .build();
-    int positionOne = 1;
 
-    assertEquals(1, headerSpanSizeLookup.getSpanSize(positionOne));
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ONE));
   }
 
   private Object giveAHeader() {
