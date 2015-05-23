@@ -19,7 +19,6 @@ package com.karumi.headerrecyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.List;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
