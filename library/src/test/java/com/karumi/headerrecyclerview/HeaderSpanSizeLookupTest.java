@@ -16,71 +16,57 @@
 
 package com.karumi.headerrecyclerview;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
-import org.robolectric.Robolectric;
 
 import static junit.framework.Assert.assertEquals;
 
 public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
-  private static final int ANY_SPAN_COUNT = 3;
-  public static final int HEADER_SPAN_SIZE = 1;
-
-  private HeaderSpanSizeLookup headerSpanSizeLookup;
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapter;
-
-  @Before public void setUp() {
-    GridLayoutManager gridLayoutManager =
-        new GridLayoutManager(Robolectric.application, ANY_SPAN_COUNT);
-    adapter = getHeaderRecyclerAdapter();
-    headerSpanSizeLookup = new HeaderSpanSizeLookup(adapter, gridLayoutManager);
-  }
+  private static final int THREE_ROWS = 3;
+  private static final int POSITION_ZERO = 0;
+  private static final int POSITION_ONE = 1;
 
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
-    List<Object> items = givenSomeItems();
-    adapter.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withItems(givenSomeItems()).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
+        .build();
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(HEADER_SPAN_SIZE, spanSize);
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
-    Object header = giveAHeader();
-    adapter.setHeader(header);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader()).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
+        .build();
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(ANY_SPAN_COUNT, spanSize);
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
-    Object header = giveAHeader();
-    List<Object> items = givenSomeItems();
-    adapter.setHeader(header);
-    adapter.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+            .withItems(givenSomeItems())
+            .build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
+        .build();
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(0);
-
-    assertEquals(ANY_SPAN_COUNT, spanSize);
+    assertEquals(3, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
-    Object header = giveAHeader();
-    List<Object> items = givenSomeItems();
-    adapter.setHeader(header);
-    adapter.setItems(items);
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+            .withItems(givenSomeItems())
+            .build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
+        .build();
 
-    int spanSize = headerSpanSizeLookup.getSpanSize(1);
-
-    assertEquals(HEADER_SPAN_SIZE, spanSize);
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ONE));
   }
 
   private Object giveAHeader() {
@@ -91,30 +77,5 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     List<Object> items = new LinkedList<>();
     items.add(new Object());
     return items;
-  }
-
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
-  getHeaderRecyclerAdapter() {
-    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
-
-      @Override
-      protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
-        return null;
-      }
-
-      @Override
-      protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return null;
-      }
-
-      @Override
-      protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-      }
-
-      @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-      }
-    };
   }
 }
