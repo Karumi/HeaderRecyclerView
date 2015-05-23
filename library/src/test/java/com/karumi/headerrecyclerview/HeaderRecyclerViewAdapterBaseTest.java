@@ -36,13 +36,13 @@ import static org.mockito.Mockito.verify;
 public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T>
     extends RobolectricTest {
 
-  public static final int TYPE_ITEM = -1;
-  public static final int TYPE_HEADER = -2;
-  public static final int POSITION_ZERO = 0;
-  public static final int ANY_POSITION = 3;
-  public static final int POSITION_ONE = 1;
-  public static final int HEADER_POSITION = 0;
-  public static final int ANY_NON_HEADER_POSITION = 4;
+  private static final int TYPE_ITEM = -1;
+  private static final int TYPE_HEADER = -2;
+  private static final int POSITION_ZERO = 0;
+  private static final int ANY_POSITION = 3;
+  private static final int POSITION_ONE = 1;
+  private static final int HEADER_POSITION = 0;
+  private static final int ANY_NON_HEADER_POSITION = 4;
 
   @Test public void shouldReturnZeroAsItemCountByDefault() {
     HeaderRecyclerViewAdapter<VH, H, T> defaultAdapter =
@@ -64,7 +64,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
             .withItems(givenAListWithFiveItems())
             .build();
 
-    Assert.assertEquals(6, adapterWithHeaderAndWithFiveItems.getItemCount());
+    assertEquals(6, adapterWithHeaderAndWithFiveItems.getItemCount());
   }
 
   @Test

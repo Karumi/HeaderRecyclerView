@@ -24,9 +24,9 @@ import static junit.framework.Assert.assertEquals;
 
 public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
-  public static final int THREE_ROWS = 3;
-  public static final int POSITION_ZERO = 0;
-  public static final int POSITION_ONE = 1;
+  private static final int THREE_ROWS = 3;
+  private static final int POSITION_ZERO = 0;
+  private static final int POSITION_ONE = 1;
 
   @Test
   public void shouldReturnHeaderSpanSizeIfTheAdapterHasNoConfiguredAHeaderAndThePositionIsZero() {
