@@ -40,6 +40,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
   private H header;
   private List<T> items = Collections.EMPTY_LIST;
   private F footer;
+  private boolean showFooter = true;
 
   /**
    * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
@@ -136,6 +137,14 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     this.footer = footer;
   }
 
+  public void showFooter() {
+    this.showFooter = true;
+  }
+
+  public void hideFooter() {
+    this.showFooter = false;
+  }
+
   protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
 
   protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
@@ -183,7 +192,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    * Returns true if the footer configured is not null.
    */
   protected boolean hasFooter() {
-    return getFooter() != null;
+    return getFooter() != null && showFooter;
   }
 
   private boolean hasItems() {
