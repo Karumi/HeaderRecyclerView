@@ -17,7 +17,7 @@ To use ``HeaderRecyclerView`` in your application you have to follow this steps:
 
 ```java
 
-public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacte, DragonBallFooterr> {
+public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter, DragonBallFooter> {
 
 
 ```

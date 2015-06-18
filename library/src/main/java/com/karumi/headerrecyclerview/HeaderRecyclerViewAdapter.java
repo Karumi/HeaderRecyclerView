@@ -60,8 +60,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
   /**
    * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
-   * on
-   * the position param.
+   * on the position param.
    */
   @Override public void onBindViewHolder(VH holder, int position) {
     if (isHeaderPosition(position)) {
