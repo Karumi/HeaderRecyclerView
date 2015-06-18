@@ -30,10 +30,11 @@ import static junit.framework.Assert.assertEquals;
 public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
   private static final int ANY_SPAN_COUNT = 3;
-  public static final int HEADER_SPAN_SIZE = 1;
+  private static final int HEADER_SPAN_SIZE = 1;
+  private static final int FOOTER_SPAN_SIZE = 1;
 
   private HeaderSpanSizeLookup headerSpanSizeLookup;
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object> adapter;
+  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object, Object> adapter;
 
   @Before public void setUp() {
     GridLayoutManager gridLayoutManager =
@@ -50,6 +51,16 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     int spanSize = headerSpanSizeLookup.getSpanSize(0);
 
     assertEquals(HEADER_SPAN_SIZE, spanSize);
+  }
+
+  @Test
+  public void shouldReturnFooterSpanSizeIfTheAdapterHasNoConfiguredAFooterAndThePositionIsTheLast() {
+    List<Object> items = givenSomeItems();
+    adapter.setItems(items);
+
+    int spanSize = headerSpanSizeLookup.getSpanSize(items.size());
+
+    assertEquals(FOOTER_SPAN_SIZE, spanSize);
   }
 
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
@@ -93,9 +104,9 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     return items;
   }
 
-  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
+  private HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object, Object>
   getHeaderRecyclerAdapter() {
-    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
+    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object, Object>() {
 
       @Override
       protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
@@ -108,11 +119,21 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
       }
 
       @Override
+      protected RecyclerView.ViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+        return null;
+      }
+
+      @Override
       protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
 
       @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+      }
+
+      @Override
+      protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
     };

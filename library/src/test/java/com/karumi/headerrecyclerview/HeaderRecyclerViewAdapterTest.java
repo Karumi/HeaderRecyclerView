@@ -27,9 +27,9 @@ import static org.mockito.Mockito.mock;
 public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBaseTest {
 
   @Override
-  protected HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>
+  protected HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object, Object>
   getAdapterUnderTest() {
-    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object>() {
+    return new HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, Object, Object, Object>() {
 
       @Override
       protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
@@ -42,11 +42,21 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
       }
 
       @Override
+      protected RecyclerView.ViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+        return null;
+      }
+
+      @Override
       protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
 
       @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+      }
+
+      @Override
+      protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
 
       }
     };
@@ -57,6 +67,10 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
   }
 
   @Override protected Object givenAHeader() {
+    return new Object();
+  }
+
+  @Override protected Object givenAFooter() {
     return new Object();
   }
 
