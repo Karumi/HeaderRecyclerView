@@ -16,24 +16,19 @@
 
 package com.karumi.headerrecyclerview.sample;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
-
 /**
- * RecyclerView.ViewHolder extension created to render a DragonBallFooter instance.
+ * Presentation model created to contain all the information needed to draw the footer of a list of
+ * DragonBall characters.
  */
-public class FooterViewHolder extends RecyclerView.ViewHolder {
+public class DragonBallFooter {
 
-  private final TextView loadMoreMessage;
+  private final String loadMoreMessage;
 
-  public FooterViewHolder(View itemView) {
-    super(itemView);
-    this.loadMoreMessage = (TextView) itemView.findViewById(R.id.tv_load_more);
+  public DragonBallFooter(String loadMoreMessage) {
+    this.loadMoreMessage = loadMoreMessage;
   }
 
-  public void render(DragonBallFooter footer) {
-    String loadMoreText = footer.getLoadMoreMessage();
-    loadMoreMessage.setText(loadMoreText);
+  public String getLoadMoreMessage() {
+    return loadMoreMessage;
   }
 }

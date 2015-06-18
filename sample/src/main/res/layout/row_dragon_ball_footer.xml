@@ -14,7 +14,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-  <string name="app_name">HeaderRecyclerView</string>
-  <string name="load_more_message">Loading...</string>
-</resources>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <ProgressBar
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <TextView
+      android:id="@+id/tv_load_more"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

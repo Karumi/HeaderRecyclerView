@@ -50,7 +50,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     VH viewHolder;
     if (isHeaderType(viewType)) {
       viewHolder = onCreateHeaderViewHolder(parent, viewType);
-    } else if (isFooterPosition(viewType)) {
+    } else if (isFooterType(viewType)) {
       viewHolder = onCreateFooterViewHolder(parent, viewType);
     } else {
       viewHolder = onCreateItemViewHolder(parent, viewType);

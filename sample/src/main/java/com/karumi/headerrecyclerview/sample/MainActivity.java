@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
   private void fillRecyclerView() {
     List<DragonBallCharacter> characters = getDragonBallCharacters();
     DragonBallHeader header = getHeader(characters);
+    DragonBallFooter footer = getFooter();
     adapter.setHeader(header);
     adapter.setItems(characters);
+    adapter.setFooter(footer);
     adapter.notifyDataSetChanged();
   }
 
@@ -106,5 +108,10 @@ public class MainActivity extends AppCompatActivity {
       }
     }
     return new DragonBallHeader(noxItems);
+  }
+
+  public DragonBallFooter getFooter() {
+    String loadMoreMessage = getString(R.string.load_more_message);
+    return new DragonBallFooter(loadMoreMessage);
   }
 }
