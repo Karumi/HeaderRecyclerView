@@ -19,6 +19,7 @@ package com.karumi.headerrecyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -32,148 +33,245 @@ import static org.mockito.Mockito.verify;
  * Base test class created to be extended by every HeaderRecyclerViewAdapter test case. Any
  * HeaderRecyclerViewAdapter extension have to match the contract described in this test.
  */
-public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T>
+public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T, F>
     extends RobolectricTest {
 
   private static final int TYPE_ITEM = -1;
   private static final int TYPE_HEADER = -2;
-  private static final int POSITION_ZERO = 0;
-  private static final int ANY_POSITION = 3;
-  private static final int POSITION_ONE = 1;
+  private static final int TYPE_FOOTER = -3;
+  private static final ViewGroup ANY_VIEW_GROUP = mock(ViewGroup.class);
   private static final int HEADER_POSITION = 0;
-  private static final int ANY_NON_HEADER_POSITION = 4;
+  private static final int ITEM_POSITION = 1;
+  private static final int FOOTER_POSITION = 5;
+
+  protected HeaderRecyclerViewAdapter<VH, H, T, F> adapter;
+
+  @Before public void setUp() {
+    adapter = getAdapterUnderTest();
+  }
 
   @Test public void shouldReturnZeroAsItemCountByDefault() {
-    HeaderRecyclerViewAdapter<VH, H, T> defaultAdapter =
-        new HeaderRecyclerViewAdapterBuilder().build();
-
-    assertEquals(0, defaultAdapter.getItemCount());
+    assertEquals(0, adapter.getItemCount());
   }
 
   @Test public void shouldReturnItemCountIfHasNoHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithFiveItems =
-        new HeaderRecyclerViewAdapterBuilder().withItems(givenAListWithFiveItems()).build();
+    List<T> brands = givenAListWithFiveItems();
 
-    assertEquals(5, adapterWithoutHeaderAndWithFiveItems.getItemCount());
+    adapter.setItems(brands);
+
+    int fiveElements = brands.size();
+    assertEquals(fiveElements, adapter.getItemCount());
   }
 
   @Test public void shouldReturnItemCountPlusOneIfHasHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndWithFiveItems =
-        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(givenAListWithFiveItems())
-            .build();
+    List<T> items = givenAListWithFiveItems();
+    H header = givenAHeader();
 
-    assertEquals(6, adapterWithHeaderAndWithFiveItems.getItemCount());
+    adapter.setHeader(header);
+    adapter.setItems(items);
+
+    int expectedSize = items.size() + 1;
+    assertEquals(expectedSize, adapter.getItemCount());
+  }
+
+  @Test public void shouldReturnItemCountPlusOneIfHasFooterConfigured() {
+    List<T> items = givenAListWithFiveItems();
+    F footer = givenAFooter();
+
+    adapter.setFooter(footer);
+    adapter.setItems(items);
+
+    int expectedSize = items.size() + 1;
+    assertEquals(expectedSize, adapter.getItemCount());
+  }
+
+  @Test public void shouldReturnItemCountPlusTwoIfHasHeaderAndFooterConfigured() {
+    List<T> items = givenAListWithFiveItems();
+    H header = givenAHeader();
+    F footer = givenAFooter();
+
+    adapter.setHeader(header);
+    adapter.setFooter(footer);
+    adapter.setItems(items);
+
+    int expectedSize = items.size() + 2;
+    assertEquals(expectedSize, adapter.getItemCount());
   }
 
   @Test
   public void shouldReturnOneAsItemCountIfThereAreNoItemsButTheAdapterHasOneHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndNoItems =
-        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
+    H header = givenAHeader();
 
-    assertEquals(1, adapterWithHeaderAndNoItems.getItemCount());
+    adapter.setHeader(header);
+
+    assertEquals(1, adapter.getItemCount());
+  }
+
+  @Test
+  public void shouldReturnOneAsItemCountIfThereAreNoItemsButTheAdapterHasOneFooterConfigured() {
+    F footer = givenAFooter();
+
+    adapter.setFooter(footer);
+
+    assertEquals(1, adapter.getItemCount());
+  }
+
+  @Test public void shouldReturnTwoAsItemCountIfThereAreNoItemsButTheAdapterHasFooterAndHeader() {
+    H header = givenAHeader();
+    F footer = givenAFooter();
+
+    adapter.setHeader(header);
+    adapter.setFooter(footer);
+
+    assertEquals(2, adapter.getItemCount());
   }
 
   @Test public void shouldReturnFalseIfPositionEqualsToZeroButThereIsNoHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithoutItems =
-        new HeaderRecyclerViewAdapterBuilder().build();
+    assertFalse(adapter.isHeaderPosition(0));
+  }
 
-    assertFalse(adapterWithoutHeaderAndWithoutItems.isHeaderPosition(POSITION_ZERO));
+  @Test public void shouldReturnFalseIfPositionEqualsToLastButThereIsNoFooterConfigured() {
+    assertFalse(adapter.isFooterPosition(0));
   }
 
   @Test public void shouldReturnTrueIfPositionEqualsToZeroAndThereIsAHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndNoItems =
-        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
+    H header = givenAHeader();
 
-    assertTrue(adapterWithHeaderAndNoItems.isHeaderPosition(POSITION_ZERO));
+    adapter.setHeader(header);
+
+    assertTrue(adapter.isHeaderPosition(0));
+  }
+
+  @Test public void shouldReturnTrueIfPositionEqualsToZeroAndThereIsAFooterConfigured() {
+    F footer = givenAFooter();
+
+    adapter.setFooter(footer);
+
+    assertTrue(adapter.isFooterPosition(0));
   }
 
   @Test public void shouldReturnNoHeaderTypeIfThereIsNoHeaderConfigured() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithoutItems =
-        new HeaderRecyclerViewAdapterBuilder().build();
-
-    assertEquals(TYPE_ITEM, adapterWithoutHeaderAndWithoutItems.getItemViewType(ANY_POSITION));
+    int type = adapter.getItemViewType(0);
+    assertEquals(TYPE_ITEM, type);
   }
 
   @Test public void shouldReturnHeaderTypeIfThereIsAHeaderConfiguredAndThePositionIsZero() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndNoItems =
-        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build();
+    H header = givenAHeader();
 
-    assertEquals(TYPE_HEADER, adapterWithHeaderAndNoItems.getItemViewType(POSITION_ZERO));
+    adapter.setHeader(header);
+
+    assertEquals(TYPE_HEADER, adapter.getItemViewType(0));
+  }
+
+  @Test public void shouldReturnFooterTypeIfThereIsAFooterConfiguredAndThePositionIsZero() {
+    F footer = givenAFooter();
+
+    adapter.setFooter(footer);
+
+    assertEquals(TYPE_FOOTER, adapter.getItemViewType(0));
   }
 
   @Test public void shouldReturnItemAsItemAtPositionZeroIfThereIsNoHeaderConfigured() {
-    List<T> fiveItems = givenAListWithFiveItems();
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithoutHeaderAndWithFiveItems =
-        new HeaderRecyclerViewAdapterBuilder().withItems(fiveItems).build();
+    List<T> items = givenAListWithFiveItems();
 
-    T positionZeroItem = fiveItems.get(POSITION_ZERO);
-    assertEquals(positionZeroItem, adapterWithoutHeaderAndWithFiveItems.getItem(POSITION_ZERO));
+    adapter.setItems(items);
+
+    T expectedItem = items.get(0);
+    assertEquals(expectedItem, adapter.getItem(0));
   }
 
   @Test
   public void shouldReturnFirstItemAsItemAtPositionOneIfHeaderWasConfiguredAndThereAreMoreItems() {
-    List<T> fiveItems = givenAListWithFiveItems();
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndWithFiveItems =
-        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(fiveItems)
-            .build();
+    H header = givenAHeader();
+    List<T> items = givenAListWithFiveItems();
 
-    T positionZeroItem = fiveItems.get(POSITION_ZERO);
-    assertEquals(positionZeroItem, adapterWithHeaderAndWithFiveItems.getItem(POSITION_ONE));
+    adapter.setHeader(header);
+    adapter.setItems(items);
+
+    T expectedItem = items.get(0);
+    assertEquals(expectedItem, adapter.getItem(1));
   }
 
   @Test public void shouldDelegateCallToOnCreateHeaderViewHolderIfViewTypeIsHeaderType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapter =
-        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(givenAListWithFiveItems())
-            .build());
-    ViewGroup anyViewGroup = mock(ViewGroup.class);
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithHeaderAndSomeItems();
+    adapter = spy(adapter);
 
-    adapter.onCreateViewHolder(anyViewGroup, TYPE_HEADER);
+    adapter.onCreateViewHolder(ANY_VIEW_GROUP, TYPE_HEADER);
 
-    verify(adapter).onCreateHeaderViewHolder(anyViewGroup, TYPE_HEADER);
+    verify(adapter).onCreateHeaderViewHolder(ANY_VIEW_GROUP, TYPE_HEADER);
+  }
+
+  @Test public void shouldDelegateCallToOnCreateFooterViewHolderIfViewTypeIsFooterType() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithFooterAndSomeItems();
+    adapter = spy(adapter);
+
+    adapter.onCreateViewHolder(ANY_VIEW_GROUP, TYPE_FOOTER);
+
+    verify(adapter).onCreateFooterViewHolder(ANY_VIEW_GROUP, TYPE_FOOTER);
   }
 
   @Test public void shouldDelegateCallToOnCreateItemViewHolderIfViewTypeIsItemType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapter =
-        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(givenAListWithFiveItems())
-            .build());
-    ViewGroup anyViewGroup = mock(ViewGroup.class);
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithHeaderAndSomeItems();
+    adapter = spy(adapter);
 
-    adapter.onCreateViewHolder(anyViewGroup, TYPE_ITEM);
+    adapter.onCreateViewHolder(ANY_VIEW_GROUP, TYPE_ITEM);
 
-    verify(adapter).onCreateItemViewHolder(anyViewGroup, TYPE_ITEM);
+    verify(adapter).onCreateItemViewHolder(ANY_VIEW_GROUP, TYPE_ITEM);
   }
 
   @Test public void shouldDelegateCallToOnBindHeaderViewHolderIfViewTypeIsHeaderType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndSomeItems =
-        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(givenAListWithFiveItems())
-            .build());
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithHeaderAndSomeItems();
+    adapter = spy(adapter);
     VH holder = givenAViewHolder();
 
-    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, HEADER_POSITION);
+    adapter.onBindViewHolder(holder, HEADER_POSITION);
 
-    verify(adapterWithHeaderAndSomeItems).onBindHeaderViewHolder(holder, HEADER_POSITION);
+    verify(adapter).onBindHeaderViewHolder(holder, HEADER_POSITION);
+  }
+
+  @Test public void shouldDelegateCallToOnBindFooterViewHolderIfViewTypeIsFooterType() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithFooterAndSomeItems();
+    adapter = spy(adapter);
+    VH holder = givenAViewHolder();
+
+    adapter.onBindViewHolder(holder, FOOTER_POSITION);
+
+    verify(adapter).onBindFooterViewHolder(holder, FOOTER_POSITION);
   }
 
   @Test public void shouldDelegateCallToOnBindItemViewHolderIfViewTypeIsItemType() {
-    HeaderRecyclerViewAdapter<VH, H, T> adapterWithHeaderAndSomeItems =
-        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
-            .withItems(givenAListWithFiveItems())
-            .build());
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter = givenAnAdapterWithHeaderAndSomeItems();
+    adapter = spy(adapter);
     VH holder = givenAViewHolder();
 
-    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, ANY_NON_HEADER_POSITION);
+    adapter.onBindViewHolder(holder, ITEM_POSITION);
 
-    verify(adapterWithHeaderAndSomeItems).onBindItemViewHolder(holder, ANY_NON_HEADER_POSITION);
+    verify(adapter).onBindItemViewHolder(holder, ITEM_POSITION);
   }
+
+  private HeaderRecyclerViewAdapter<VH, H, T, F> givenAnAdapterWithHeaderAndSomeItems() {
+    H header = givenAHeader();
+    List<T> items = givenAListWithFiveItems();
+    adapter.setHeader(header);
+    adapter.setItems(items);
+    return adapter;
+  }
+
+  private HeaderRecyclerViewAdapter<VH, H, T, F> givenAnAdapterWithFooterAndSomeItems() {
+    F footer = givenAFooter();
+    List<T> items = givenAListWithFiveItems();
+    adapter.setFooter(footer);
+    adapter.setItems(items);
+    return adapter;
+  }
+
+  protected abstract HeaderRecyclerViewAdapter<VH, H, T, F> getAdapterUnderTest();
 
   protected abstract VH givenAViewHolder();
 
   protected abstract H givenAHeader();
+
+  protected abstract F givenAFooter();
 
   protected abstract List<T> givenAListWithFiveItems();
 }

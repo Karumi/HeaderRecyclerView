@@ -33,6 +33,8 @@ public class HeaderSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
   }
 
   @Override public int getSpanSize(int position) {
-    return adapter.isHeaderPosition(position) ? layoutManager.getSpanCount() : 1;
+    boolean isHeaderOrFooter =
+        adapter.isHeaderPosition(position) || adapter.isFooterPosition(position);
+    return isHeaderOrFooter ? layoutManager.getSpanCount() : 1;
   }
 }

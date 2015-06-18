@@ -17,6 +17,7 @@
 package com.karumi.headerrecyclerview.sample;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,15 +30,54 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
   private static final int NUMBER_OF_COLUMNS = 2;
+  private static final int FIVE_SECONDS = 5000;
 
   private RecyclerView recyclerView;
   private HeaderRecyclerViewAdapter adapter;
+  private boolean loading;
+  private boolean hasMore = true;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main_activity);
     initializeRecyclerView();
     fillRecyclerView();
+    hookLoadMoreListener();
+  }
+
+  private void hookLoadMoreListener() {
+    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        int visibleItemCount = recyclerView.getChildCount();
+        GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+        int totalItemCount = layoutManager.getItemCount();
+        int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+        int visibleThreshold = 5;
+        boolean isCloseToTheEnd =
+            (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold);
+        if (!loading && isCloseToTheEnd && hasMore) {
+          loadMore();
+        }
+      }
+    });
+  }
+
+  private void loadMore() {
+    loading = true;
+    new Handler().postDelayed(new Runnable() {
+      @Override public void run() {
+        adapter.hideFooter();
+        List<DragonBallCharacter> originalCharacters = getDragonBallCharacters();
+        List<DragonBallCharacter> characters =
+            new ArrayList<DragonBallCharacter>(originalCharacters);
+        characters.addAll(originalCharacters);
+        adapter.setItems(characters);
+        adapter.notifyDataSetChanged();
+        loading = false;
+        hasMore = false;
+      }
+    }, FIVE_SECONDS);
   }
 
   private void initializeRecyclerView() {
@@ -54,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
   private void fillRecyclerView() {
     List<DragonBallCharacter> characters = getDragonBallCharacters();
     DragonBallHeader header = getHeader(characters);
+    DragonBallFooter footer = getFooter();
     adapter.setHeader(header);
     adapter.setItems(characters);
+    adapter.setFooter(footer);
     adapter.notifyDataSetChanged();
   }
 
@@ -106,5 +148,10 @@ public class MainActivity extends AppCompatActivity {
       }
     }
     return new DragonBallHeader(noxItems);
+  }
+
+  public DragonBallFooter getFooter() {
+    String loadMoreMessage = getString(R.string.load_more_message);
+    return new DragonBallFooter(loadMoreMessage);
   }
 }
