@@ -138,10 +138,12 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
   public void showFooter() {
     this.showFooter = true;
+    notifyDataSetChanged();
   }
 
   public void hideFooter() {
     this.showFooter = false;
+    notifyDataSetChanged();
   }
 
   protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
