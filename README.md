@@ -1,7 +1,7 @@
 HeaderRecyclerView [![Build Status](https://travis-ci.org/Karumi/HeaderRecyclerView.svg?branch=master)](https://travis-ci.org/Karumi/HeaderRecyclerView) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-HeaderRecyclerView-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1841)
 ==================
 
-HeaderRecyclerView is an Android library created to be able to use ``RecyclerView.Adapter`` with a header in a easy way. To use this library create your ``RecyclerView.Adapter`` classes extending from ``HeaderRecyclerViewAdapter``.
+HeaderRecyclerView is an Android library created to be able to use ``RecyclerView.Adapter`` with a header and/or footer in a easy way. To use this library create your ``RecyclerView.Adapter`` classes extending from ``HeaderRecyclerViewAdapter``.
 
 Screenshots
 -----------
@@ -17,12 +17,12 @@ To use ``HeaderRecyclerView`` in your application you have to follow this steps:
 
 ```java
 
-public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter> {
+public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter, DragonBallFooter> {
 
 
 ```
 
-* 2 - Implement ``onCreateHeaderViewHolder``, ``onCreateItemViewHolder``, ``onBindItemViewHolder`` and ``onBindViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:
+* 2 - Implement ``onCreateHeaderViewHolder``, ``onCreateItemViewHolder``,``onCreateFooterViewHolder`` , ``onBindHeaderViewHolder``, ``onBindItemViewHOlder`` and ``onBindFooterViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:
 
 ```java
 
@@ -40,6 +40,13 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
     return new CharacterViewHolder(characterView);
   }
 
+  @Override
+  protected RecyclerView.ViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+    LayoutInflater inflater = getLayoutInflater(parent);
+    View footerView = inflater.inflate(R.layout.row_dragon_ball_footer, parent, false);
+    return new FooterViewHolder(footerView);
+  }
+
   @Override protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
     DragonBallHeader header = getHeader();
     HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
@@ -52,6 +59,12 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
     characterViewHolder.render(character);
   }
 
+  @Override protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
+    DragonBallFooter footer = getFooter();
+    FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+    footerViewHolder.render(footer);
+  }
+
 ```
 
 * 3 - Configure your ``RecyclerView`` widget with this layout:
@@ -60,13 +73,13 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
   List<DragonBallCharacter> characters = getDragonBallCharacters();
   DragonBallHeader header = getHeader(characters);
+  DragonBallFooter footer = getFooter();
   adapter.setHeader(header);
+  adapter.setFooter(footer);
   adapter.setItems(characters);
   recyclerView.setAdapter(adapter);
 
 ```
-
-**You can use methods like ``isHeaderType(viewType)`` or ``isHeaderPosition(position)`` to return the ViewHolder associated to the header or to draw the view associated to the header. The header instance can be obtained using the method ``getHeader()``**.
 
 * 4 - If you are using a ``GridLayoutManager`` instead of a ``LinearLayoutManager`` remember you'll have to configure the ``SpanSizeLookup`` used in the ``LayoutManager`` instance. If you are using ``HeaderRecyclerView`` with a ``GridLayoutManager`` you can create an instance of ``HeaderSpanSizeLookup`` and configure your ``LayoutManager`` instance:
 

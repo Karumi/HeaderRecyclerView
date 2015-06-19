@@ -38,9 +38,19 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ZERO));
   }
 
+  @Test
+  public void shouldReturnFooterSpanSizeIfTheAdapterHasNoConfiguredAFooterAndThePositionIsTheLast() {
+    HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
+        new HeaderRecyclerViewAdapterBuilder().withItems(givenSomeItems()).build())
+        .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
+        .build();
+
+    assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ONE));
+  }
+
   @Test public void shouldReturnSpanCountIfThePositionIsZeroAndTheAdapterHasAHeaderConfigured() {
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
-        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader()).build())
+        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader()).build())
         .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
         .build();
 
@@ -49,7 +59,7 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsZeroAndHasHeaderAndItemsConfigured() {
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
-        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenSomeItems())
             .build())
         .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
@@ -60,7 +70,7 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
 
   @Test public void shouldReturnHeaderSpanSizeIfThePositionIsOneAndHasHeaderAndItemsConfigured() {
     HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookupBuilder().withAdapter(
-        new HeaderRecyclerViewAdapterBuilder().withHeader(giveAHeader())
+        new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
             .withItems(givenSomeItems())
             .build())
         .withGridLayoutManager(new GridLayoutManagerBuilder().withSpanCount(THREE_ROWS).build())
@@ -69,7 +79,7 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     assertEquals(1, headerSpanSizeLookup.getSpanSize(POSITION_ONE));
   }
 
-  private Object giveAHeader() {
+  private Object givenAHeader() {
     return new Object();
   }
 
@@ -77,5 +87,9 @@ public class HeaderSpanSizeLookupTest extends RobolectricTest {
     List<Object> items = new LinkedList<>();
     items.add(new Object());
     return items;
+  }
+
+  private Object givenAFooter() {
+    return new Object();
   }
 }

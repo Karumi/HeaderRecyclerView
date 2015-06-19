@@ -33,6 +33,10 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
     return new Object();
   }
 
+  @Override protected Object givenAFooter() {
+    return new Object();
+  }
+
   @Override protected List givenAListWithFiveItems() {
     List<Object> items = new ArrayList<>();
     for (int i = 0; i < 5; i++) {

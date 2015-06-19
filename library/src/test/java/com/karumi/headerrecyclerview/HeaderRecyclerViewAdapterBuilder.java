@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.List;
 
-public class HeaderRecyclerViewAdapterBuilder<VH extends RecyclerView.ViewHolder, H, T> {
+public class HeaderRecyclerViewAdapterBuilder<VH extends RecyclerView.ViewHolder, H, T, F> {
 
-  HeaderRecyclerViewAdapter<VH, H, T> adapter = new HeaderRecyclerViewAdapter<VH, H, T>() {
+  HeaderRecyclerViewAdapter<VH, H, T, F> adapter = new HeaderRecyclerViewAdapter<VH, H, T, F>() {
 
     @Override protected VH onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
       return null;
@@ -16,11 +16,19 @@ public class HeaderRecyclerViewAdapterBuilder<VH extends RecyclerView.ViewHolder
       return null;
     }
 
+    @Override protected VH onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+      return null;
+    }
+
     @Override protected void onBindHeaderViewHolder(VH holder, int position) {
 
     }
 
     @Override protected void onBindItemViewHolder(VH holder, int position) {
+
+    }
+
+    @Override protected void onBindFooterViewHolder(VH holder, int position) {
 
     }
   };
@@ -35,7 +43,12 @@ public class HeaderRecyclerViewAdapterBuilder<VH extends RecyclerView.ViewHolder
     return this;
   }
 
-  public HeaderRecyclerViewAdapter<VH, H, T> build() {
+  public HeaderRecyclerViewAdapterBuilder withFooter(F footer) {
+    adapter.setFooter(footer);
+    return this;
+  }
+
+  public HeaderRecyclerViewAdapter<VH, H, T, F> build() {
     return adapter;
   }
 }

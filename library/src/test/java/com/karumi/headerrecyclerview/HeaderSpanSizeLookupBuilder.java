@@ -17,11 +17,20 @@ public class HeaderSpanSizeLookupBuilder {
       return null;
     }
 
+    @Override
+    protected RecyclerView.ViewHolder onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+      return null;
+    }
+
     @Override protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
 
     }
 
     @Override protected void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
 
     }
   };
