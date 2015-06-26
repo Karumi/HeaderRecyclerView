@@ -99,7 +99,7 @@ Add ``HeaderRecyclerView`` dependency to your ``build.gradle`` file
 ```groovy
 
 dependencies{
-    compile 'com.karumi:headerrecyclerview:1.0.2'
+    compile 'com.karumi:headerrecyclerview:1.0.3'
 }
 
 ```
@@ -111,7 +111,7 @@ or to your ``pom.xml`` if you are using Maven instead of Gradle
 <dependency>
     <groupId>com.karumi</groupId>
     <artifactId>headerrecyclerview</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <type>aar</type>
 </dependency>
 
