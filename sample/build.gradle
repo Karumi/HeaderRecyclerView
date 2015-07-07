@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'checkstyle'
 
 android {
   compileSdkVersion 22
@@ -18,13 +17,4 @@ dependencies {
   compile 'com.android.support:recyclerview-v7:22.1.1'
   compile 'com.github.pedrovgs:nox:1.0'
   compile 'com.squareup.picasso:picasso:2.5.2'
-}
-
-task checkstyle(type: Checkstyle) {
-  configFile file('../config/checkstyle/checkstyle.xml')
-  source 'src'
-  include '**/*.java'
-  exclude '**/gen/**'
-
-  classpath = files()
 }
