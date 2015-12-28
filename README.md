@@ -1,4 +1,4 @@
-HeaderRecyclerView [![Build Status](https://travis-ci.org/Karumi/HeaderRecyclerView.svg?branch=master)](https://travis-ci.org/Karumi/HeaderRecyclerView) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-HeaderRecyclerView-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1841)
+![Karumi logo][karumilogo] HeaderRecyclerView [![Build Status](https://travis-ci.org/Karumi/HeaderRecyclerView.svg?branch=master)](https://travis-ci.org/Karumi/HeaderRecyclerView) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.karumi/headerrecyclerview) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-HeaderRecyclerView-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1841)
 ==================
 
 HeaderRecyclerView is an Android library created to be able to use ``RecyclerView.Adapter`` with a header and/or footer in a easy way. To use this library create your ``RecyclerView.Adapter`` classes extending from ``HeaderRecyclerViewAdapter``.
@@ -158,3 +158,5 @@ License
 [3]: https://github.com/junit-team/junit
 [4]: https://github.com/square/picasso
 [5]: https://github.com/pedrovgs/Nox
+
+[karumilogo]: https://cloud.githubusercontent.com/assets/858090/11626547/e5a1dc66-9ce3-11e5-908d-537e07e82090.png
