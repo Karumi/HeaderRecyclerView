@@ -18,6 +18,7 @@ package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
    * based on the view type param.
    */
-  @Override public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
     VH viewHolder;
     if (isHeaderType(viewType)) {
       viewHolder = onCreateHeaderViewHolder(parent, viewType);
@@ -62,7 +63,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
    * on the position param.
    */
-  @Override public void onBindViewHolder(VH holder, int position) {
+  @Override public final void onBindViewHolder(VH holder, int position) {
     if (isHeaderPosition(position)) {
       onBindHeaderViewHolder(holder, position);
     } else if (isFooterPosition(position)) {
