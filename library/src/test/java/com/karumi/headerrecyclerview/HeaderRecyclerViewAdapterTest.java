@@ -18,37 +18,47 @@ package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBaseTest {
 
-  @Override protected RecyclerView.ViewHolder givenAViewHolder() {
-    return new FakeViewHolder(mock(View.class));
-  }
-
-  @Override protected Object givenAHeader() {
-    return new Object();
-  }
-
-  @Override protected Object givenAFooter() {
-    return new Object();
-  }
-
-  @Override protected List givenAListWithFiveItems() {
-    List<Object> items = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
-      items.add(new Object());
+    @Override
+    protected RecyclerView.ViewHolder givenAViewHolder() {
+        return new FakeViewHolder(mock(View.class));
     }
-    return items;
-  }
 
-  private class FakeViewHolder extends RecyclerView.ViewHolder {
-
-    public FakeViewHolder(View itemView) {
-      super(itemView);
+    @Override
+    protected Object givenAHeader() {
+        return new Object();
     }
-  }
+
+    @Override
+    protected Object givenAFooter() {
+        return new Object();
+    }
+
+    @Override
+    protected List givenAListWithFiveItems() {
+        List<Object> items = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            items.add(new Object());
+        }
+        return items;
+    }
+
+    @Override
+    protected RecyclerView.ViewHolder givenAMockViewHolder() {
+        return mock(RecyclerView.ViewHolder.class);
+    }
+
+    private class FakeViewHolder extends RecyclerView.ViewHolder {
+
+        public FakeViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 }
