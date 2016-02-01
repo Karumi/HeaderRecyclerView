@@ -18,8 +18,12 @@ package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-import java.util.List;
+
+import com.karumi.headerrecyclerview.testBaseClass.RobolectricTestWithMockito;
+
 import org.junit.Test;
+
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,7 +37,7 @@ import static org.mockito.Mockito.verify;
  * HeaderRecyclerViewAdapter extension have to match the contract described in this test.
  */
 public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T, F>
-    extends RobolectricTest {
+    extends RobolectricTestWithMockito {
 
   private static final int TYPE_ITEM = -1;
   private static final int TYPE_HEADER = -2;

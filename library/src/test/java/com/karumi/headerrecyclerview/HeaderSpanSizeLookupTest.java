@@ -16,13 +16,16 @@
 
 package com.karumi.headerrecyclerview;
 
+import com.karumi.headerrecyclerview.testBaseClass.RobolectricTestWithMockito;
+
+import org.junit.Test;
+
 import java.util.LinkedList;
 import java.util.List;
-import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
-public class HeaderSpanSizeLookupTest extends RobolectricTest {
+public class HeaderSpanSizeLookupTest extends RobolectricTestWithMockito {
 
   private static final int THREE_ROWS = 3;
   private static final int POSITION_ZERO = 0;
