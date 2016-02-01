@@ -2,11 +2,12 @@ package com.karumi.headerrecyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
-import org.robolectric.Robolectric;
+
+import org.robolectric.RuntimeEnvironment;
 
 public class GridLayoutManagerBuilder {
 
-  Context context = Robolectric.application;
+  Context context = RuntimeEnvironment.application;
   int spanCount = 1;
 
   public GridLayoutManagerBuilder withContext(Context context) {

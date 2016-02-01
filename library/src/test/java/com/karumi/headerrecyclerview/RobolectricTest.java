@@ -17,13 +17,15 @@
 package com.karumi.headerrecyclerview;
 
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
  * Base class extended by every Robolectric test in this project.
  */
-@Config(emulateSdk = 18) @RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class,
+        sdk = 21)
+@RunWith(RobolectricGradleTestRunner.class)
 public abstract class RobolectricTest {
 
 }

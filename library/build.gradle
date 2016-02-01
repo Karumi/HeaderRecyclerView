@@ -20,9 +20,9 @@ android {
 
 dependencies {
   compile 'com.android.support:recyclerview-v7:22.1.1'
-  testCompile 'org.robolectric:robolectric:2.4'
+  testCompile "org.robolectric:robolectric:3.0"
   testCompile 'org.mockito:mockito-all:1.9.5'
-  testCompile 'junit:junit:4.10'
+  testCompile 'junit:junit:4.12'
 }
 
 apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
