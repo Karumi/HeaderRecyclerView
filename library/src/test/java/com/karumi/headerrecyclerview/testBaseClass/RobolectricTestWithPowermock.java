@@ -10,7 +10,9 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Known issue: when you use <a href="http://site.mockito.org/mockito/docs/current/org/mockito/Mockito.html#spy"> Mockito.spy(Object) </a>, you will get a java.lang.IllegalAccessError exception<br>
+ * Known issue: when you use
+ * <a href="http://site.mockito.org/mockito/docs/current/org/mockito/Mockito.html#spy">
+ * Mockito.spy(Object) </a>, you will get a java.lang.IllegalAccessError exception<br>
  * if you do not use powermock feature, please use {@link RobolectricTestWithMockito} instead.<br>
  * Or you have to write your own stub to verify method call
  * <pre>

@@ -22,7 +22,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBaseTest {
 

@@ -20,9 +20,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.karumi.headerrecyclerview.testBaseClass.PowermockTest;
-import com.karumi.headerrecyclerview.testBaseClass.RobolectricTestWithMockito;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -33,9 +30,10 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.powermock.api.mockito.PowerMockito.*;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Base test class created to be extended by every HeaderRecyclerViewAdapter test case. Any
@@ -526,7 +524,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewDetachedFromWindow(viewHolder);
 
-        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onHeaderViewDetachedFromWindow(viewHolder);
         verify(adapter).onItemViewDetachedFromWindow(viewHolder);
         verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
     }
@@ -543,7 +541,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewDetachedFromWindow(viewHolder);
 
-        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onHeaderViewDetachedFromWindow(viewHolder);
         verify(adapter).onItemViewDetachedFromWindow(viewHolder);
         verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
     }
@@ -560,7 +558,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewDetachedFromWindow(viewHolder);
 
-        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onHeaderViewDetachedFromWindow(viewHolder);
         verify(adapter).onItemViewDetachedFromWindow(viewHolder);
         verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
     }
@@ -576,7 +574,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewDetachedFromWindow(viewHolder);
 
-        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onHeaderViewDetachedFromWindow(viewHolder);
         verify(adapter).onItemViewDetachedFromWindow(viewHolder);
         verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
     }
@@ -594,8 +592,8 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewDetachedFromWindow(viewHolder);
 
-        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
-        verify(adapter,never()).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onItemViewDetachedFromWindow(viewHolder);
         verify(adapter).onFooterViewDetachedFromWindow(viewHolder);
     }
     //</editor-fold>
@@ -628,7 +626,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewRecycled(viewHolder);
 
-        verify(adapter,never()).onHeaderViewRecycled(viewHolder);
+        verify(adapter, never()).onHeaderViewRecycled(viewHolder);
         verify(adapter).onItemViewRecycled(viewHolder);
         verify(adapter, never()).onFooterViewRecycled(viewHolder);
     }
@@ -645,7 +643,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewRecycled(viewHolder);
 
-        verify(adapter,never()).onHeaderViewRecycled(viewHolder);
+        verify(adapter, never()).onHeaderViewRecycled(viewHolder);
         verify(adapter).onItemViewRecycled(viewHolder);
         verify(adapter, never()).onFooterViewRecycled(viewHolder);
     }
@@ -662,7 +660,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewRecycled(viewHolder);
 
-        verify(adapter,never()).onHeaderViewRecycled(viewHolder);
+        verify(adapter, never()).onHeaderViewRecycled(viewHolder);
         verify(adapter).onItemViewRecycled(viewHolder);
         verify(adapter, never()).onFooterViewRecycled(viewHolder);
     }
@@ -678,7 +676,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewRecycled(viewHolder);
 
-        verify(adapter,never()).onHeaderViewRecycled(viewHolder);
+        verify(adapter, never()).onHeaderViewRecycled(viewHolder);
         verify(adapter).onItemViewRecycled(viewHolder);
         verify(adapter, never()).onFooterViewRecycled(viewHolder);
     }
@@ -696,8 +694,8 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
 
         adapter.onViewRecycled(viewHolder);
 
-        verify(adapter,never()).onHeaderViewRecycled(viewHolder);
-        verify(adapter,never()).onItemViewRecycled(viewHolder);
+        verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+        verify(adapter, never()).onItemViewRecycled(viewHolder);
         verify(adapter).onFooterViewRecycled(viewHolder);
     }
     //</editor-fold>
