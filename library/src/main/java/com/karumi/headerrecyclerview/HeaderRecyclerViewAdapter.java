@@ -43,6 +43,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     private F footer;
     private boolean showFooter = true;
 
+    //<editor-fold desc="seperate onCreateViewHolder">
     /**
      * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
      * based on the view type param.
@@ -60,6 +61,14 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         return viewHolder;
     }
 
+    protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
+
+    protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
+
+    protected abstract VH onCreateFooterViewHolder(ViewGroup parent, int viewType);
+    //</editor-fold>
+
+    //<editor-fold desc="seperate onBindViewHolder">
     /**
      * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
      * on the position param.
@@ -75,27 +84,14 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         }
     }
 
-    /**
-     * Returns the type associated to an item given a position passed as arguments. If the position
-     * is related to a header item returns the constant TYPE_HEADER or TYPE_FOOTER if the position is
-     * related to the footer, if not, returns TYPE_ITEM.
-     * <p>
-     * If your application has to support different types override this method and provide your
-     * implementation. Remember that TYPE_HEADER, TYPE_ITEM and TYPE_FOOTER are internal constants
-     * can be used to identify an item given a position, try to use different values in your
-     * application.
-     */
-    @Override
-    public int getItemViewType(int position) {
-        int viewType = TYPE_ITEM;
-        if (isHeaderPosition(position)) {
-            viewType = TYPE_HEADER;
-        } else if (isFooterPosition(position)) {
-            viewType = TYPE_FOOTER;
-        }
-        return viewType;
-    }
+    protected abstract void onBindHeaderViewHolder(VH holder, int position);
 
+    protected abstract void onBindItemViewHolder(VH holder, int position);
+
+    protected abstract void onBindFooterViewHolder(VH holder, int position);
+    //</editor-fold>
+
+    //<editor-fold desc="seperate onFailedToRecycleView">
     @Override
     public final boolean onFailedToRecycleView(VH holder) {
         int position = holder.getAdapterPosition();
@@ -123,7 +119,9 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     protected boolean onFailedToRecycleFooterView(VH holder) {
         return false;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="seperate onViewAttachedToWindow">
     @Override
     public final void onViewAttachedToWindow(VH holder) {
         int position = holder.getAdapterPosition();
@@ -145,7 +143,9 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
     protected void onFooterViewAttachedToWindow(VH holder) {
     }
+    //</editor-fold>
 
+    //<editor-fold desc="seperate onViewDetachedFromWindow">
     @Override
     public final void onViewDetachedFromWindow(VH holder) {
         int position = holder.getAdapterPosition();
@@ -166,6 +166,52 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     }
 
     protected void onFooterViewDetachedFromWindow(VH holder) {
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="seperate onViewRecycled">
+    @Override
+    public final void onViewRecycled(VH holder) {
+        int position = holder.getAdapterPosition();
+
+        if (isHeaderPosition(position)) {
+            onHeaderViewRecycled(holder);
+        } else if (isFooterPosition(position)) {
+            onFooterViewRecycled(holder);
+        } else {
+            onItemViewRecycled(holder);
+        }
+    }
+
+    protected void onHeaderViewRecycled(VH holder) {
+    }
+
+    protected void onItemViewRecycled(VH holder) {
+    }
+
+    protected void onFooterViewRecycled(VH holder) {
+    }
+    //</editor-fold>
+
+    /**
+     * Returns the type associated to an item given a position passed as arguments. If the position
+     * is related to a header item returns the constant TYPE_HEADER or TYPE_FOOTER if the position is
+     * related to the footer, if not, returns TYPE_ITEM.
+     * <p>
+     * If your application has to support different types override this method and provide your
+     * implementation. Remember that TYPE_HEADER, TYPE_ITEM and TYPE_FOOTER are internal constants
+     * can be used to identify an item given a position, try to use different values in your
+     * application.
+     */
+    @Override
+    public int getItemViewType(int position) {
+        int viewType = TYPE_ITEM;
+        if (isHeaderPosition(position)) {
+            viewType = TYPE_HEADER;
+        } else if (isFooterPosition(position)) {
+            viewType = TYPE_FOOTER;
+        }
+        return viewType;
     }
 
     /**
@@ -222,18 +268,6 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         this.showFooter = false;
         notifyDataSetChanged();
     }
-
-    protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
-
-    protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
-
-    protected abstract VH onCreateFooterViewHolder(ViewGroup parent, int viewType);
-
-    protected abstract void onBindHeaderViewHolder(VH holder, int position);
-
-    protected abstract void onBindItemViewHolder(VH holder, int position);
-
-    protected abstract void onBindFooterViewHolder(VH holder, int position);
 
     /**
      * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
