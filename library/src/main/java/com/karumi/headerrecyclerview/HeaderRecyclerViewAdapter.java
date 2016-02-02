@@ -61,11 +61,15 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         return viewHolder;
     }
 
-    protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
+    protected VH onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
 
     protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
 
-    protected abstract VH onCreateFooterViewHolder(ViewGroup parent, int viewType);
+    protected VH onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
     //</editor-fold>
 
     //<editor-fold desc="seperate onBindViewHolder">
@@ -84,11 +88,13 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         }
     }
 
-    protected abstract void onBindHeaderViewHolder(VH holder, int position);
+    protected void onBindHeaderViewHolder(VH holder, int position) {
+    }
 
     protected abstract void onBindItemViewHolder(VH holder, int position);
 
-    protected abstract void onBindFooterViewHolder(VH holder, int position);
+    protected void onBindFooterViewHolder(VH holder, int position) {
+    }
     //</editor-fold>
 
     //<editor-fold desc="seperate onFailedToRecycleView">
