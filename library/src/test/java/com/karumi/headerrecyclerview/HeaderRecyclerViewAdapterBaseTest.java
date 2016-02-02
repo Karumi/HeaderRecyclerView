@@ -264,11 +264,11 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
                 spy(new HeaderRecyclerViewAdapterBuilder().withFooter(givenAFooter())
                         .withItems(givenAListWithFiveItems())
                         .build());
-    VH holder = givenAViewHolder();
+        VH holder = givenAViewHolder();
 
-    adapterWithHeaderAndSomeItems.onBindViewHolder(holder, FOOTER_POSITION);
+        adapterWithHeaderAndSomeItems.onBindViewHolder(holder, FOOTER_POSITION);
 
-    verify(adapterWithHeaderAndSomeItems).onBindFooterViewHolder(holder, FOOTER_POSITION);
+        verify(adapterWithHeaderAndSomeItems).onBindFooterViewHolder(holder, FOOTER_POSITION);
     }
 
     @Test
@@ -313,7 +313,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         boolean ret = adapter.onFailedToRecycleView(viewHolder);
         assertFalse(ret);
 
-        verify(adapter,never()).onFailedToRecycleHeaderView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleHeaderView(viewHolder);
         verify(adapter).onFailedToRecycleItemView(viewHolder);
         verify(adapter, never()).onFailedToRecycleFooterView(viewHolder);
     }
@@ -331,7 +331,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         boolean ret = adapter.onFailedToRecycleView(viewHolder);
         assertFalse(ret);
 
-        verify(adapter,never()).onFailedToRecycleHeaderView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleHeaderView(viewHolder);
         verify(adapter).onFailedToRecycleItemView(viewHolder);
         verify(adapter, never()).onFailedToRecycleFooterView(viewHolder);
     }
@@ -349,7 +349,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         boolean ret = adapter.onFailedToRecycleView(viewHolder);
         assertFalse(ret);
 
-        verify(adapter,never()).onFailedToRecycleHeaderView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleHeaderView(viewHolder);
         verify(adapter).onFailedToRecycleItemView(viewHolder);
         verify(adapter, never()).onFailedToRecycleFooterView(viewHolder);
     }
@@ -366,7 +366,7 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         boolean ret = adapter.onFailedToRecycleView(viewHolder);
         assertFalse(ret);
 
-        verify(adapter,never()).onFailedToRecycleHeaderView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleHeaderView(viewHolder);
         verify(adapter).onFailedToRecycleItemView(viewHolder);
         verify(adapter, never()).onFailedToRecycleFooterView(viewHolder);
     }
@@ -385,9 +385,210 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
         boolean ret = adapter.onFailedToRecycleView(viewHolder);
         assertFalse(ret);
 
-        verify(adapter,never()).onFailedToRecycleHeaderView(viewHolder);
-        verify(adapter,never()).onFailedToRecycleItemView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleHeaderView(viewHolder);
+        verify(adapter, never()).onFailedToRecycleItemView(viewHolder);
         verify(adapter).onFailedToRecycleFooterView(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnHeaderViewAttachedToWindowIfViewTypeIsHeaderType() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewAttachedToWindowIfViewTypeIsItemTypeAndHaveHeader() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(1);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter, never()).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+
+    @Test
+    public void shouldDelegateCallToOnItemViewAttachedToWindowIfViewTypeIsItemTypeAndNotHaveHeader() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter, never()).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewAttachedToWindowIfViewTypeIsItemTypeAndHaveFooter() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withFooter(givenAFooter())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter, never()).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewAttachedToWindowIfViewTypeIsItemTypeAndNotHaveFooter() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter, never()).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnFooterViewAttachedToWindowIfViewTypeIsFooterType() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withHeader(givenAHeader())
+                        .withFooter(givenAFooter())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(6);
+
+        adapter.onViewAttachedToWindow(viewHolder);
+
+        verify(adapter, never()).onHeaderViewAttachedToWindow(viewHolder);
+        verify(adapter, never()).onItemViewAttachedToWindow(viewHolder);
+        verify(adapter).onFooterViewAttachedToWindow(viewHolder);
+    }
+
+
+    @Test
+    public void shouldDelegateCallToOnHeaderViewDetachedFromWindowIfViewTypeIsHeaderType() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewDetachedFromWindowIfViewTypeIsItemTypeAndHaveHeader() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(1);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
+    }
+
+
+    @Test
+    public void shouldDelegateCallToOnItemViewDetachedFromWindowIfViewTypeIsItemTypeAndNotHaveHeader() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewDetachedFromWindowIfViewTypeIsItemTypeAndHaveFooter() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withFooter(givenAFooter())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnItemViewDetachedFromWindowIfViewTypeIsItemTypeAndNotHaveFooter() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter, never()).onFooterViewDetachedFromWindow(viewHolder);
+    }
+
+    @Test
+    public void shouldDelegateCallToOnFooterViewDetachedFromWindowIfViewTypeIsFooterType() {
+        HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+                spy(new HeaderRecyclerViewAdapterBuilder()
+                        .withHeader(givenAHeader())
+                        .withFooter(givenAFooter())
+                        .withItems(givenAListWithFiveItems())
+                        .build());
+        VH viewHolder = givenAMockViewHolder();
+        when(viewHolder.getAdapterPosition()).thenReturn(6);
+
+        adapter.onViewDetachedFromWindow(viewHolder);
+
+        verify(adapter,never()).onHeaderViewDetachedFromWindow(viewHolder);
+        verify(adapter,never()).onItemViewDetachedFromWindow(viewHolder);
+        verify(adapter).onFooterViewDetachedFromWindow(viewHolder);
     }
 
     protected abstract VH givenAViewHolder();

@@ -124,6 +124,50 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         return false;
     }
 
+    @Override
+    public final void onViewAttachedToWindow(VH holder) {
+        int position = holder.getAdapterPosition();
+
+        if (isHeaderPosition(position)) {
+            onHeaderViewAttachedToWindow(holder);
+        } else if (isFooterPosition(position)) {
+            onFooterViewAttachedToWindow(holder);
+        } else {
+            onItemViewAttachedToWindow(holder);
+        }
+    }
+
+    protected void onHeaderViewAttachedToWindow(VH holder) {
+    }
+
+    protected void onItemViewAttachedToWindow(VH holder) {
+    }
+
+    protected void onFooterViewAttachedToWindow(VH holder) {
+    }
+
+    @Override
+    public final void onViewDetachedFromWindow(VH holder) {
+        int position = holder.getAdapterPosition();
+
+        if (isHeaderPosition(position)) {
+            onHeaderViewDetachedFromWindow(holder);
+        } else if (isFooterPosition(position)) {
+            onFooterViewDetachedFromWindow(holder);
+        } else {
+            onItemViewDetachedFromWindow(holder);
+        }
+    }
+
+    protected void onHeaderViewDetachedFromWindow(VH holder) {
+    }
+
+    protected void onItemViewDetachedFromWindow(VH holder) {
+    }
+
+    protected void onFooterViewDetachedFromWindow(VH holder) {
+    }
+
     /**
      * Returns the items list size if there is no a header configured or the size taking into account
      * that if a header or a footer is configured the number of items returned is going to include
