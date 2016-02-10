@@ -17,24 +17,14 @@
 package com.karumi.headerrecyclerview.testBaseClass;
 
 import com.karumi.headerrecyclerview.BuildConfig;
-
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
- * Base class extended by every Robolectric test combined mockito.
- * <pre>
- * if (you do not need fake Android Runtime)
- *    use use {@link PowermockTest} as the Test base
- * else if(you don't need to feature provided by Powermock, like mock final,private or static method)
- *     use use this class
- * else
- *     use {@link RobolectricTestWithPowermock}</pre>
+ * If you need fake android runtime, you should extend this class to run unit test.
  */
 @Config(constants = BuildConfig.class,
-        sdk = 21)
-@RunWith(RobolectricGradleTestRunner.class)
-public abstract class RobolectricTestWithMockito {
+    sdk = 21) @RunWith(RobolectricGradleTestRunner.class) public abstract class RobolectricTest {
 
 }

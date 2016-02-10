@@ -4,15 +4,8 @@ import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * <pre>
- * if (you do not need fake Android Runtime)
- *    use this class as the Test base
- * else if(you don't need to feature provided by Powermock, like mock final,private or static method)
- *     use {@link RobolectricTestWithMockito}
- * else
- *     use {@link RobolectricTestWithPowermock}</pre>
- *
+ * If you don't need android runtime, and need to mock final or static
+ * methods, you should extend this class to run unit test.
  */
-@RunWith(PowerMockRunner.class)
-public abstract class PowermockTest {
+@RunWith(PowerMockRunner.class) public abstract class PowermockTest {
 }

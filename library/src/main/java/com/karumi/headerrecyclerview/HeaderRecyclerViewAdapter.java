@@ -18,7 +18,6 @@ package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -32,294 +31,270 @@ import java.util.List;
  * implementation remember to override getItemCount method.
  */
 public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHolder, H, T, F>
-        extends RecyclerView.Adapter<VH> {
+    extends RecyclerView.Adapter<VH> {
 
-    protected static final int TYPE_HEADER = -2;
-    protected static final int TYPE_ITEM = -1;
-    protected static final int TYPE_FOOTER = -3;
+  protected static final int TYPE_HEADER = -2;
+  protected static final int TYPE_ITEM = -1;
+  protected static final int TYPE_FOOTER = -3;
 
-    private H header;
-    private List<T> items = Collections.EMPTY_LIST;
-    private F footer;
-    private boolean showFooter = true;
+  private H header;
+  private List<T> items = Collections.EMPTY_LIST;
+  private F footer;
+  private boolean showFooter = true;
 
-    //<editor-fold desc="seperate onCreateViewHolder">
-    /**
-     * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
-     * based on the view type param.
-     */
-    @Override
-    public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        VH viewHolder;
-        if (isHeaderType(viewType)) {
-            viewHolder = onCreateHeaderViewHolder(parent, viewType);
-        } else if (isFooterType(viewType)) {
-            viewHolder = onCreateFooterViewHolder(parent, viewType);
-        } else {
-            viewHolder = onCreateItemViewHolder(parent, viewType);
-        }
-        return viewHolder;
+  /**
+   * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
+   * based on the view type param.
+   */
+  @Override public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
+    VH viewHolder;
+    if (isHeaderType(viewType)) {
+      viewHolder = onCreateHeaderViewHolder(parent, viewType);
+    } else if (isFooterType(viewType)) {
+      viewHolder = onCreateFooterViewHolder(parent, viewType);
+    } else {
+      viewHolder = onCreateItemViewHolder(parent, viewType);
     }
+    return viewHolder;
+  }
 
-    protected VH onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
-        return null;
+  /**
+   * If you don't need header feature, you can bypass overriding this method.
+   */
+  protected VH onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
+    return null;
+  }
+
+  protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
+
+  /**
+   * If you don't need footer feature, you can bypass overriding this method.
+   */
+  protected VH onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+    return null;
+  }
+
+  /**
+   * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
+   * on the position param.
+   */
+  @Override public final void onBindViewHolder(VH holder, int position) {
+    if (isHeaderPosition(position)) {
+      onBindHeaderViewHolder(holder, position);
+    } else if (isFooterPosition(position)) {
+      onBindFooterViewHolder(holder, position);
+    } else {
+      onBindItemViewHolder(holder, position);
     }
+  }
 
-    protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
+  /**
+   * If you don't need header feature, you can bypass overriding this method.
+   */
+  protected void onBindHeaderViewHolder(VH holder, int position) {
+  }
 
-    protected VH onCreateFooterViewHolder(ViewGroup parent, int viewType) {
-        return null;
+  protected abstract void onBindItemViewHolder(VH holder, int position);
+
+  /**
+   * If you don't need footer feature, you can bypass overriding this method.
+   */
+  protected void onBindFooterViewHolder(VH holder, int position) {
+  }
+
+  /**
+   * Invokes onHeaderViewRecycled, onItemViewRecycled or onFooterViewRecycled methods based
+   * on the holder.getAdapterPosition()
+   */
+  @Override public final void onViewRecycled(VH holder) {
+    int position = holder.getAdapterPosition();
+
+    if (isHeaderPosition(position)) {
+      onHeaderViewRecycled(holder);
+    } else if (isFooterPosition(position)) {
+      onFooterViewRecycled(holder);
+    } else {
+      onItemViewRecycled(holder);
     }
-    //</editor-fold>
+  }
 
-    //<editor-fold desc="seperate onBindViewHolder">
-    /**
-     * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
-     * on the position param.
-     */
-    @Override
-    public final void onBindViewHolder(VH holder, int position) {
-        if (isHeaderPosition(position)) {
-            onBindHeaderViewHolder(holder, position);
-        } else if (isFooterPosition(position)) {
-            onBindFooterViewHolder(holder, position);
-        } else {
-            onBindItemViewHolder(holder, position);
-        }
+  protected void onHeaderViewRecycled(VH holder) {
+  }
+
+  protected void onItemViewRecycled(VH holder) {
+  }
+
+  protected void onFooterViewRecycled(VH holder) {
+  }
+
+  /**
+   * Returns the type associated to an item given a position passed as arguments. If the position
+   * is related to a header item returns the constant TYPE_HEADER or TYPE_FOOTER if the position is
+   * related to the footer, if not, returns TYPE_ITEM.
+   * <p>
+   * If your application has to support different types override this method and provide your
+   * implementation. Remember that TYPE_HEADER, TYPE_ITEM and TYPE_FOOTER are internal constants
+   * can be used to identify an item given a position, try to use different values in your
+   * application.
+   */
+  @Override public int getItemViewType(int position) {
+    int viewType = TYPE_ITEM;
+    if (isHeaderPosition(position)) {
+      viewType = TYPE_HEADER;
+    } else if (isFooterPosition(position)) {
+      viewType = TYPE_FOOTER;
     }
+    return viewType;
+  }
 
-    protected void onBindHeaderViewHolder(VH holder, int position) {
+  /**
+   * Returns the items list size if there is no a header configured or the size taking into account
+   * that if a header or a footer is configured the number of items returned is going to include
+   * this elements.
+   */
+  @Override public int getItemCount() {
+    int size = items.size();
+    if (hasHeader()) {
+      size++;
     }
-
-    protected abstract void onBindItemViewHolder(VH holder, int position);
-
-    protected void onBindFooterViewHolder(VH holder, int position) {
+    if (hasFooter()) {
+      size++;
     }
-    //</editor-fold>
+    return size;
+  }
 
-    //<editor-fold desc="seperate onFailedToRecycleView">
-    @Override
-    public final boolean onFailedToRecycleView(VH holder) {
-        int position = holder.getAdapterPosition();
-        boolean ret;
+  /**
+   * Get header data in this adapter, you should previously use {@link #setHeader(H header)}
+   * in the adapter initialization code to set header data.
+   *
+   * @return header data
+   */
+  public H getHeader() {
+    return header;
+  }
 
-        if (isHeaderPosition(position)) {
-            ret = onFailedToRecycleHeaderView(holder);
-        } else if (isFooterPosition(position)) {
-            ret = onFailedToRecycleFooterView(holder);
-        } else {
-            ret = onFailedToRecycleItemView(holder);
-        }
-
-        return ret;
+  /**
+   * Get item data in this adapter with the specified postion,
+   * you should previously use {@link #setHeader(H header)}
+   * in the adapter initialization code to set header data.
+   *
+   * @return item data in the specified postion
+   */
+  public T getItem(int position) {
+    if (hasHeader() && hasItems()) {
+      --position;
     }
+    return items.get(position);
+  }
 
-    protected boolean onFailedToRecycleHeaderView(VH holder) {
-        return false;
+  /**
+   * Get footer data in this adapter, you should previously use {@link #setFooter(F footer)}
+   * in the adapter initialization code to set footer data.
+   *
+   * @return footer data
+   */
+  public F getFooter() {
+    return footer;
+  }
+
+  /**
+   * If you need a header, you should set header data in the adapter initialization code.
+   *
+   * @param header header data
+   */
+  public void setHeader(H header) {
+    this.header = header;
+  }
+
+  /**
+   * You should set header data in the adapter initialization code.
+   *
+   * @param items item data list
+   */
+  public void setItems(List<T> items) {
+    validateItems(items);
+    this.items = items;
+  }
+
+  /**
+   * If you need a footer, you should set footer data in the adapter initialization code.
+   */
+  public void setFooter(F footer) {
+    this.footer = footer;
+  }
+
+  /**
+   * Call this method to show hiding footer.
+   */
+  public void showFooter() {
+    this.showFooter = true;
+    notifyDataSetChanged();
+  }
+
+  /**
+   * Call this method to hide footer.
+   */
+  public void hideFooter() {
+    this.showFooter = false;
+    notifyDataSetChanged();
+  }
+
+  /**
+   * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
+   * has a not null header already configured.
+   */
+  public boolean isHeaderPosition(int position) {
+    return hasHeader() && position == 0;
+  }
+
+  /**
+   * Returns true if the position type parameter passed as argument is equals to
+   * <code>getItemCount() - 1</code>
+   * and the adapter has a not null header already configured.
+   */
+  public boolean isFooterPosition(int position) {
+    int lastPosition = getItemCount() - 1;
+    return hasFooter() && position == lastPosition;
+  }
+
+  /**
+   * Returns true if the view type parameter passed as argument is equals to TYPE_HEADER.
+   */
+  protected boolean isHeaderType(int viewType) {
+    return viewType == TYPE_HEADER;
+  }
+
+  /**
+   * Returns true if the view type parameter passed as argument is equals to TYPE_FOOTER.
+   */
+  protected boolean isFooterType(int viewType) {
+    return viewType == TYPE_FOOTER;
+  }
+
+  /**
+   * Returns true if the header configured is not null.
+   */
+  protected boolean hasHeader() {
+    return getHeader() != null;
+  }
+
+  /**
+   * Returns true if the footer configured is not null.
+   */
+  protected boolean hasFooter() {
+    return getFooter() != null && showFooter;
+  }
+
+  /**
+   * Returns true if the item configured is not empty.
+   */
+  private boolean hasItems() {
+    return items.size() > 0;
+  }
+
+  private void validateItems(List<T> items) {
+    if (items == null) {
+      throw new IllegalArgumentException("You can't use a null List<Item> instance.");
     }
-
-    protected boolean onFailedToRecycleItemView(VH holder) {
-        return false;
-    }
-
-    protected boolean onFailedToRecycleFooterView(VH holder) {
-        return false;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="seperate onViewAttachedToWindow">
-    @Override
-    public final void onViewAttachedToWindow(VH holder) {
-        int position = holder.getAdapterPosition();
-
-        if (isHeaderPosition(position)) {
-            onHeaderViewAttachedToWindow(holder);
-        } else if (isFooterPosition(position)) {
-            onFooterViewAttachedToWindow(holder);
-        } else {
-            onItemViewAttachedToWindow(holder);
-        }
-    }
-
-    protected void onHeaderViewAttachedToWindow(VH holder) {
-    }
-
-    protected void onItemViewAttachedToWindow(VH holder) {
-    }
-
-    protected void onFooterViewAttachedToWindow(VH holder) {
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="seperate onViewDetachedFromWindow">
-    @Override
-    public final void onViewDetachedFromWindow(VH holder) {
-        int position = holder.getAdapterPosition();
-
-        if (isHeaderPosition(position)) {
-            onHeaderViewDetachedFromWindow(holder);
-        } else if (isFooterPosition(position)) {
-            onFooterViewDetachedFromWindow(holder);
-        } else {
-            onItemViewDetachedFromWindow(holder);
-        }
-    }
-
-    protected void onHeaderViewDetachedFromWindow(VH holder) {
-    }
-
-    protected void onItemViewDetachedFromWindow(VH holder) {
-    }
-
-    protected void onFooterViewDetachedFromWindow(VH holder) {
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="seperate onViewRecycled">
-    @Override
-    public final void onViewRecycled(VH holder) {
-        int position = holder.getAdapterPosition();
-
-        if (isHeaderPosition(position)) {
-            onHeaderViewRecycled(holder);
-        } else if (isFooterPosition(position)) {
-            onFooterViewRecycled(holder);
-        } else {
-            onItemViewRecycled(holder);
-        }
-    }
-
-    protected void onHeaderViewRecycled(VH holder) {
-    }
-
-    protected void onItemViewRecycled(VH holder) {
-    }
-
-    protected void onFooterViewRecycled(VH holder) {
-    }
-    //</editor-fold>
-
-    /**
-     * Returns the type associated to an item given a position passed as arguments. If the position
-     * is related to a header item returns the constant TYPE_HEADER or TYPE_FOOTER if the position is
-     * related to the footer, if not, returns TYPE_ITEM.
-     * <p>
-     * If your application has to support different types override this method and provide your
-     * implementation. Remember that TYPE_HEADER, TYPE_ITEM and TYPE_FOOTER are internal constants
-     * can be used to identify an item given a position, try to use different values in your
-     * application.
-     */
-    @Override
-    public int getItemViewType(int position) {
-        int viewType = TYPE_ITEM;
-        if (isHeaderPosition(position)) {
-            viewType = TYPE_HEADER;
-        } else if (isFooterPosition(position)) {
-            viewType = TYPE_FOOTER;
-        }
-        return viewType;
-    }
-
-    /**
-     * Returns the items list size if there is no a header configured or the size taking into account
-     * that if a header or a footer is configured the number of items returned is going to include
-     * this elements.
-     */
-    @Override
-    public int getItemCount() {
-        int size = items.size();
-        if (hasHeader()) {
-            size++;
-        }
-        if (hasFooter()) {
-            size++;
-        }
-        return size;
-    }
-
-    public H getHeader() {
-        return header;
-    }
-
-    public T getItem(int position) {
-        if (hasHeader() && hasItems()) {
-            --position;
-        }
-        return items.get(position);
-    }
-
-    public F getFooter() {
-        return footer;
-    }
-
-    public void setHeader(H header) {
-        this.header = header;
-    }
-
-    public void setItems(List<T> items) {
-        validateItems(items);
-        this.items = items;
-    }
-
-    public void setFooter(F footer) {
-        this.footer = footer;
-    }
-
-    public void showFooter() {
-        this.showFooter = true;
-        notifyDataSetChanged();
-    }
-
-    public void hideFooter() {
-        this.showFooter = false;
-        notifyDataSetChanged();
-    }
-
-    /**
-     * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
-     * has a not null header already configured.
-     */
-    public boolean isHeaderPosition(int position) {
-        return hasHeader() && position == 0;
-    }
-
-    public boolean isFooterPosition(int position) {
-        int lastPosition = getItemCount() - 1;
-        return hasFooter() && position == lastPosition;
-    }
-
-    /**
-     * Returns true if the view type parameter passed as argument is equals to TYPE_HEADER.
-     */
-    protected boolean isHeaderType(int viewType) {
-        return viewType == TYPE_HEADER;
-    }
-
-    protected boolean isFooterType(int viewType) {
-        return viewType == TYPE_FOOTER;
-    }
-
-    /**
-     * Returns true if the header configured is not null.
-     */
-    protected boolean hasHeader() {
-        return getHeader() != null;
-    }
-
-    /**
-     * Returns true if the footer configured is not null.
-     */
-    protected boolean hasFooter() {
-        return getFooter() != null && showFooter;
-    }
-
-    private boolean hasItems() {
-        return items.size() > 0;
-    }
-
-    private void validateItems(List<T> items) {
-        if (items == null) {
-            throw new IllegalArgumentException("You can't use a null List<Item> instance.");
-        }
-    }
+  }
 }
