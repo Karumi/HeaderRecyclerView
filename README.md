@@ -22,8 +22,9 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
 ```
 
-* 2 - Implement ``onCreateHeaderViewHolder``, ``onCreateItemViewHolder``,``onCreateFooterViewHolder`` , ``onBindHeaderViewHolder``, ``onBindItemViewHOlder`` and ``onBindFooterViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:<br>
-**if you don't use header or footer, you can ignore corresponding createViewHolder and bindViewHolder method**
+* 2 - Implement ``onCreateHeaderViewHolder``, ``onCreateItemViewHolder``,``onCreateFooterViewHolder`` , ``onBindHeaderViewHolder``, ``onBindItemViewHOlder`` and ``onBindFooterViewHolder`` to create your ``RecyclerView.ViewHolder`` instances and draw your rows:
+
+**If you don't use header or footer, you can ignore overriding corresponding createViewHolder and bindViewHolder method**
 ```java
 
 @Override
@@ -67,63 +68,7 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
 ```
 
-* 3 - you can use following method to handle view life cycle event:
-```java
-
-    @Override
-    protected boolean onFailedToRecycleHeaderView(VH holder) {
-        return false;
-    }
-
-    @Override
-    protected boolean onFailedToRecycleItemView(VH holder) {
-        return false;
-    }
-
-    @Override
-    protected boolean onFailedToRecycleFooterView(VH holder) {
-        return false;
-    }
-    
-    @Override
-    protected void onHeaderViewAttachedToWindow(VH holder) {
-    }
-
-    @Override
-    protected void onItemViewAttachedToWindow(VH holder) {
-    }
-
-    @Override
-    protected void onFooterViewAttachedToWindow(VH holder) {
-    }
-
-    @Override
-    protected void onHeaderViewDetachedFromWindow(VH holder) {
-    }
-
-    @Override
-    protected void onItemViewDetachedFromWindow(VH holder) {
-    }
-
-    @Override
-    protected void onFooterViewDetachedFromWindow(VH holder) {
-    }
-
-    @Override
-    protected void onHeaderViewRecycled(VH holder) {
-    }
-
-    @Override
-    protected void onItemViewRecycled(VH holder) {
-    }
-
-    @Override
-    protected void onFooterViewRecycled(VH holder) {
-    }
-
-```
-
-* 4 - Configure your ``RecyclerView`` widget with this layout:
+* 3 - Configure your ``RecyclerView`` widget with this layout:
 
 ```java
 
@@ -137,13 +82,30 @@ public class DragonBallAdapter extends HeaderRecyclerViewAdapter<RecyclerView.Vi
 
 ```
 
-* 5 - If you are using a ``GridLayoutManager`` instead of a ``LinearLayoutManager`` remember you'll have to configure the ``SpanSizeLookup`` used in the ``LayoutManager`` instance. If you are using ``HeaderRecyclerView`` with a ``GridLayoutManager`` you can create an instance of ``HeaderSpanSizeLookup`` and configure your ``LayoutManager`` instance:
+* 4 - If you are using a ``GridLayoutManager`` instead of a ``LinearLayoutManager`` remember you'll have to configure the ``SpanSizeLookup`` used in the ``LayoutManager`` instance. If you are using ``HeaderRecyclerView`` with a ``GridLayoutManager`` you can create an instance of ``HeaderSpanSizeLookup`` and configure your ``LayoutManager`` instance:
 
 ```java
 
   GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
   HeaderSpanSizeLookup headerSpanSizeLookup = new HeaderSpanSizeLookup(adapter, layoutManager);
   layoutManager.setSpanSizeLookup(headerSpanSizeLookup);
+
+```
+
+* 5 - You can use following method to handle view life cycle event:
+```java
+
+    @Override
+    protected void onHeaderViewRecycled(VH holder) {
+    }
+
+    @Override
+    protected void onItemViewRecycled(VH holder) {
+    }
+
+    @Override
+    protected void onFooterViewRecycled(VH holder) {
+    }
 
 ```
 
