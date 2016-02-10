@@ -26,7 +26,7 @@ import java.util.List;
  * items really useful most of the cases. You should extend from this class and override
  * onCreateViewHolder to create your ViewHolder instances and onBindViewHolder methods to draw your
  * user interface as you wish.
- * <p>
+ *
  * The usage of List<T> items member is not mandatory. If you are going to provide your custom
  * implementation remember to override getItemCount method.
  */
@@ -131,7 +131,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    * Returns the type associated to an item given a position passed as arguments. If the position
    * is related to a header item returns the constant TYPE_HEADER or TYPE_FOOTER if the position is
    * related to the footer, if not, returns TYPE_ITEM.
-   * <p>
+   *
    * If your application has to support different types override this method and provide your
    * implementation. Remember that TYPE_HEADER, TYPE_ITEM and TYPE_FOOTER are internal constants
    * can be used to identify an item given a position, try to use different values in your
