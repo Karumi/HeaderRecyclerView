@@ -46,7 +46,7 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
    * Invokes onCreateHeaderViewHolder, onCreateItemViewHolder or onCreateFooterViewHolder methods
    * based on the view type param.
    */
-  @Override public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
     VH viewHolder;
     if (isHeaderType(viewType)) {
       viewHolder = onCreateHeaderViewHolder(parent, viewType);
@@ -59,10 +59,26 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
   }
 
   /**
+   * If you don't need header feature, you can bypass overriding this method.
+   */
+  protected VH onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
+    return null;
+  }
+
+  protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
+
+  /**
+   * If you don't need footer feature, you can bypass overriding this method.
+   */
+  protected VH onCreateFooterViewHolder(ViewGroup parent, int viewType) {
+    return null;
+  }
+
+  /**
    * Invokes onBindHeaderViewHolder, onBindItemViewHolder or onBindFooterViewHOlder methods based
    * on the position param.
    */
-  @Override public void onBindViewHolder(VH holder, int position) {
+  @Override public final void onBindViewHolder(VH holder, int position) {
     if (isHeaderPosition(position)) {
       onBindHeaderViewHolder(holder, position);
     } else if (isFooterPosition(position)) {
@@ -70,6 +86,45 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     } else {
       onBindItemViewHolder(holder, position);
     }
+  }
+
+  /**
+   * If you don't need header feature, you can bypass overriding this method.
+   */
+  protected void onBindHeaderViewHolder(VH holder, int position) {
+  }
+
+  protected abstract void onBindItemViewHolder(VH holder, int position);
+
+  /**
+   * If you don't need footer feature, you can bypass overriding this method.
+   */
+  protected void onBindFooterViewHolder(VH holder, int position) {
+  }
+
+  /**
+   * Invokes onHeaderViewRecycled, onItemViewRecycled or onFooterViewRecycled methods based
+   * on the holder.getAdapterPosition()
+   */
+  @Override public final void onViewRecycled(VH holder) {
+    int position = holder.getAdapterPosition();
+
+    if (isHeaderPosition(position)) {
+      onHeaderViewRecycled(holder);
+    } else if (isFooterPosition(position)) {
+      onFooterViewRecycled(holder);
+    } else {
+      onItemViewRecycled(holder);
+    }
+  }
+
+  protected void onHeaderViewRecycled(VH holder) {
+  }
+
+  protected void onItemViewRecycled(VH holder) {
+  }
+
+  protected void onFooterViewRecycled(VH holder) {
   }
 
   /**
@@ -108,10 +163,23 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return size;
   }
 
+  /**
+   * Get header data in this adapter, you should previously use {@link #setHeader(H header)}
+   * in the adapter initialization code to set header data.
+   *
+   * @return header data
+   */
   public H getHeader() {
     return header;
   }
 
+  /**
+   * Get item data in this adapter with the specified postion,
+   * you should previously use {@link #setHeader(H header)}
+   * in the adapter initialization code to set header data.
+   *
+   * @return item data in the specified postion
+   */
   public T getItem(int position) {
     if (hasHeader() && hasItems()) {
       --position;
@@ -119,44 +187,57 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return items.get(position);
   }
 
+  /**
+   * Get footer data in this adapter, you should previously use {@link #setFooter(F footer)}
+   * in the adapter initialization code to set footer data.
+   *
+   * @return footer data
+   */
   public F getFooter() {
     return footer;
   }
 
+  /**
+   * If you need a header, you should set header data in the adapter initialization code.
+   *
+   * @param header header data
+   */
   public void setHeader(H header) {
     this.header = header;
   }
 
+  /**
+   * You should set header data in the adapter initialization code.
+   *
+   * @param items item data list
+   */
   public void setItems(List<T> items) {
     validateItems(items);
     this.items = items;
   }
 
+  /**
+   * If you need a footer, you should set footer data in the adapter initialization code.
+   */
   public void setFooter(F footer) {
     this.footer = footer;
   }
 
+  /**
+   * Call this method to show hiding footer.
+   */
   public void showFooter() {
     this.showFooter = true;
     notifyDataSetChanged();
   }
 
+  /**
+   * Call this method to hide footer.
+   */
   public void hideFooter() {
     this.showFooter = false;
     notifyDataSetChanged();
   }
-
-  protected abstract VH onCreateHeaderViewHolder(ViewGroup parent, int viewType);
-
-  protected abstract VH onCreateItemViewHolder(ViewGroup parent, int viewType);
-
-  protected abstract VH onCreateFooterViewHolder(ViewGroup parent, int viewType);
-
-  protected abstract void onBindHeaderViewHolder(VH holder, int position);
-
-  protected abstract void onBindItemViewHolder(VH holder, int position);
-
-  protected abstract void onBindFooterViewHolder(VH holder, int position);
 
   /**
    * Returns true if the position type parameter passed as argument is equals to 0 and the adapter
@@ -166,6 +247,11 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return hasHeader() && position == 0;
   }
 
+  /**
+   * Returns true if the position type parameter passed as argument is equals to
+   * <code>getItemCount() - 1</code>
+   * and the adapter has a not null header already configured.
+   */
   public boolean isFooterPosition(int position) {
     int lastPosition = getItemCount() - 1;
     return hasFooter() && position == lastPosition;
@@ -178,6 +264,9 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return viewType == TYPE_HEADER;
   }
 
+  /**
+   * Returns true if the view type parameter passed as argument is equals to TYPE_FOOTER.
+   */
   protected boolean isFooterType(int viewType) {
     return viewType == TYPE_FOOTER;
   }
@@ -196,6 +285,9 @@ public abstract class HeaderRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     return getFooter() != null && showFooter;
   }
 
+  /**
+   * Returns true if the item configured is not empty.
+   */
   private boolean hasItems() {
     return items.size() > 0;
   }

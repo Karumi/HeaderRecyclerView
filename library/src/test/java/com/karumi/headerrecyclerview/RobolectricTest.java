@@ -17,13 +17,20 @@
 package com.karumi.headerrecyclerview;
 
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
  * Base class extended by every Robolectric test in this project.
+ *
+ * You can use Powermock together with Robolectric.
  */
-@Config(emulateSdk = 18) @RunWith(RobolectricTestRunner.class)
+@RunWith(PowerMockRunner.class) @PowerMockRunnerDelegate(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class,
+    sdk = 21) @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public abstract class RobolectricTest {
 
 }

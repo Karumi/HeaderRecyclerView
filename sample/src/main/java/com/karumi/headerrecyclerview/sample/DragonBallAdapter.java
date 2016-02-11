@@ -17,6 +17,7 @@
 package com.karumi.headerrecyclerview.sample;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,9 @@ import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
  * characters.
  */
 public class DragonBallAdapter extends
-    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter,
-        DragonBallFooter> {
+    HeaderRecyclerViewAdapter<RecyclerView.ViewHolder, DragonBallHeader, DragonBallCharacter, DragonBallFooter> {
+
+  private static final String LOG_TAG = DragonBallAdapter.class.getSimpleName();
 
   @Override
   protected RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent, int viewType) {
@@ -71,5 +73,17 @@ public class DragonBallAdapter extends
 
   private LayoutInflater getLayoutInflater(ViewGroup parent) {
     return LayoutInflater.from(parent.getContext());
+  }
+
+  @Override protected void onHeaderViewRecycled(RecyclerView.ViewHolder holder) {
+    Log.v(LOG_TAG, "onHeaderViewRecycled(RecyclerView.ViewHolder holder)");
+  }
+
+  @Override protected void onItemViewRecycled(RecyclerView.ViewHolder holder) {
+    Log.v(LOG_TAG, "onItemViewRecycled(RecyclerView.ViewHolder holder)");
+  }
+
+  @Override protected void onFooterViewRecycled(RecyclerView.ViewHolder holder) {
+    Log.v(LOG_TAG, "onFooterViewRecycled(RecyclerView.ViewHolder holder)");
   }
 }

@@ -20,18 +20,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.List;
 import org.junit.Test;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Base test class created to be extended by every HeaderRecyclerViewAdapter test case. Any
  * HeaderRecyclerViewAdapter extension have to match the contract described in this test.
  */
+@PrepareForTest(RecyclerView.ViewHolder.class)
 public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T, F>
     extends RobolectricTest {
 
@@ -254,6 +258,93 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
     verify(adapterWithHeaderAndSomeItems).onBindItemViewHolder(holder, ANY_NON_HEADER_POSITION);
   }
 
+  @Test public void shouldDelegateCallToOnHeaderViewRecycledIfViewTypeIsHeaderType() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+            .withItems(givenAListWithFiveItems())
+            .build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter).onHeaderViewRecycled(viewHolder);
+    verify(adapter, never()).onItemViewRecycled(viewHolder);
+    verify(adapter, never()).onFooterViewRecycled(viewHolder);
+  }
+
+  @Test public void shouldDelegateCallToOnItemViewRecycledIfViewTypeIsItemTypeAndHaveHeader() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+            .withItems(givenAListWithFiveItems())
+            .build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(1);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+    verify(adapter).onItemViewRecycled(viewHolder);
+    verify(adapter, never()).onFooterViewRecycled(viewHolder);
+  }
+
+  @Test public void shouldDelegateCallToOnItemViewRecycledIfViewTypeIsItemTypeAndNotHaveHeader() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withItems(givenAListWithFiveItems()).build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(0);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+    verify(adapter).onItemViewRecycled(viewHolder);
+    verify(adapter, never()).onFooterViewRecycled(viewHolder);
+  }
+
+  @Test public void shouldDelegateCallToOnItemViewRecycledIfViewTypeIsItemTypeAndHaveFooter() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withFooter(givenAFooter())
+            .withItems(givenAListWithFiveItems())
+            .build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+    verify(adapter).onItemViewRecycled(viewHolder);
+    verify(adapter, never()).onFooterViewRecycled(viewHolder);
+  }
+
+  @Test public void shouldDelegateCallToOnItemViewRecycledIfViewTypeIsItemTypeAndNotHaveFooter() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withItems(givenAListWithFiveItems()).build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(4);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+    verify(adapter).onItemViewRecycled(viewHolder);
+    verify(adapter, never()).onFooterViewRecycled(viewHolder);
+  }
+
+  @Test public void shouldDelegateCallToOnFooterViewRecycledIfViewTypeIsFooterType() {
+    HeaderRecyclerViewAdapter<VH, H, T, F> adapter =
+        spy(new HeaderRecyclerViewAdapterBuilder().withHeader(givenAHeader())
+            .withFooter(givenAFooter())
+            .withItems(givenAListWithFiveItems())
+            .build());
+    VH viewHolder = givenAMockViewHolder();
+    when(viewHolder.getAdapterPosition()).thenReturn(6);
+
+    adapter.onViewRecycled(viewHolder);
+
+    verify(adapter, never()).onHeaderViewRecycled(viewHolder);
+    verify(adapter, never()).onItemViewRecycled(viewHolder);
+    verify(adapter).onFooterViewRecycled(viewHolder);
+  }
+
   protected abstract VH givenAViewHolder();
 
   protected abstract H givenAHeader();
@@ -261,4 +352,6 @@ public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.
   protected abstract F givenAFooter();
 
   protected abstract List<T> givenAListWithFiveItems();
+
+  protected abstract VH givenAMockViewHolder();
 }

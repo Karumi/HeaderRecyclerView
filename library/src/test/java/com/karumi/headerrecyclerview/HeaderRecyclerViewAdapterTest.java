@@ -21,7 +21,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBaseTest {
 
@@ -43,6 +43,10 @@ public class HeaderRecyclerViewAdapterTest extends HeaderRecyclerViewAdapterBase
       items.add(new Object());
     }
     return items;
+  }
+
+  @Override protected RecyclerView.ViewHolder givenAMockViewHolder() {
+    return mock(RecyclerView.ViewHolder.class);
   }
 
   private class FakeViewHolder extends RecyclerView.ViewHolder {

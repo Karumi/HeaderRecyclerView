@@ -14,7 +14,8 @@ sure your code compiles, passes the tests and the checkstyle configured for this
 Some tips that will help you to contribute to this repository:
 
 * Write clean code and test it.
-* Follow the repository code style.
+* Follow the repository code style. You should use SquareAndroid code style and Square inspections profile.
+You can use this script to configure your IDE https://github.com/square/java-code-styles
 * Write good commit messages.
 * Do not send pull requests without checking if the project build is OK in Travis-CI.
 * Review if your changes affects the repository documentation and update it.
