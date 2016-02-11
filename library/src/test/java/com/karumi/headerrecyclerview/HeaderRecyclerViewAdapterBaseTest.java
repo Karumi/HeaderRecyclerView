@@ -18,7 +18,6 @@ package com.karumi.headerrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-import com.karumi.headerrecyclerview.testBaseClass.PowermockTest;
 import java.util.List;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -38,7 +37,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 @PrepareForTest(RecyclerView.ViewHolder.class)
 public abstract class HeaderRecyclerViewAdapterBaseTest<VH extends RecyclerView.ViewHolder, H, T, F>
-    extends PowermockTest {
+    extends RobolectricTest {
 
   private static final int TYPE_ITEM = -1;
   private static final int TYPE_HEADER = -2;

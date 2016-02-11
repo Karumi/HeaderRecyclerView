@@ -16,7 +16,6 @@
 
 package com.karumi.headerrecyclerview;
 
-import com.karumi.headerrecyclerview.testBaseClass.RobolectricTest;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
