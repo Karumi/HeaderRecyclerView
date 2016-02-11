@@ -17,11 +17,11 @@
 package com.karumi.headerrecyclerview.sample;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
-import com.karumi.headerrecyclerview.sample.util.DebugHelper;
 
 /**
  * HeaderRecyclerViewAdapter extension created to show how to use the library using DragonBall
@@ -76,14 +76,14 @@ public class DragonBallAdapter extends
   }
 
   @Override protected void onHeaderViewRecycled(RecyclerView.ViewHolder holder) {
-    DebugHelper.logMethod(LOG_TAG);
+    Log.v(LOG_TAG, "onHeaderViewRecycled(RecyclerView.ViewHolder holder)");
   }
 
   @Override protected void onItemViewRecycled(RecyclerView.ViewHolder holder) {
-    DebugHelper.logMethod(LOG_TAG);
+    Log.v(LOG_TAG, "onItemViewRecycled(RecyclerView.ViewHolder holder)");
   }
 
   @Override protected void onFooterViewRecycled(RecyclerView.ViewHolder holder) {
-    DebugHelper.logMethod(LOG_TAG);
+    Log.v(LOG_TAG, "onFooterViewRecycled(RecyclerView.ViewHolder holder)");
   }
 }
