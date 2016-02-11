@@ -147,6 +147,8 @@ Libraries used in this project
 * [JUnit] [3]
 * [Picasso] [4]
 * [Nox] [5]
+* [Mockito] [6]
+* [Powermock] [7]
 
 External resources used in this project
 ---------------------------------------
@@ -176,5 +178,7 @@ License
 [3]: https://github.com/junit-team/junit
 [4]: https://github.com/square/picasso
 [5]: https://github.com/pedrovgs/Nox
+[6]: https://github.com/mockito/mockito
+[7]: https://github.com/jayway/powermock
 
 [karumilogo]: https://cloud.githubusercontent.com/assets/858090/11626547/e5a1dc66-9ce3-11e5-908d-537e07e82090.png
